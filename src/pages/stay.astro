@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import Card from '../components/Card.astro'
+import Modal from '../components/Modal.astro'
+import Footer from '../components/Footer.astro'
+import { hotels } from '../content/hotels'
+
+const neighborhoods = [
+  {
+    name: 'Plaza / Downtown',
+    desc: 'The center of everything — walkable to the venue and most restaurants, at the cost of being the most crowded.',
+  },
+  {
+    name: 'Railyard',
+    desc: "South of downtown, slightly quieter, good restaurant access, and close to SITE Santa Fe.",
+  },
+  {
+    name: 'Baca / Railyard',
+    desc: "Just south of the Railyard — emerging neighborhood, more residential feel, a good option for longer stays.",
+  },
+  {
+    name: 'Canyon Road',
+    desc: "East of the Plaza along the galleries — walkable to the venue and genuinely beautiful in July.",
+  },
+]
+---
+<Base title="Where to Stay — Owen & Rowan" description="Our picks for hotels and Airbnb neighborhoods in Santa Fe.">
+  <Breadcrumb />
+
+  <article class="px-6 max-w-5xl mx-auto pb-24">
+
+    <h1 class="type-display mb-4" style="font-size: clamp(2.5rem, 6vw, 4.5rem);" data-reveal>
+      Where to Stay
+    </h1>
+    <p class="mb-16 max-w-2xl" style="color: color-mix(in srgb, var(--c-ink) 70%, transparent);" data-reveal>
+      We're not running a room block, so book early — July is peak season in Santa Fe and
+      rooms fill up. Here are the places we'd actually stay.
+    </p>
+
+    <!-- Hotel cards -->
+    <section class="mb-24">
+      <h2 class="type-label mb-12" style="color: var(--c-terracotta);" data-reveal>Hotels</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {hotels.map((hotel) => (
+          <>
+            <Card
+              id={hotel.id}
+              name={hotel.name}
+              tagline={hotel.tagline}
+              illustration={hotel.illustration}
+            />
+            <Modal
+              id={hotel.id}
+              name={hotel.name}
+              tagline={hotel.tagline}
+              description={hotel.description}
+              illustration={hotel.illustration}
+              practical={hotel.practical}
+              url={hotel.url}
+            />
+          </>
+        ))}
+      </div>
+    </section>
+
+    <!-- Airbnb neighborhoods -->
+    <section class="mb-24">
+      <h2 class="type-label mb-12" style="color: var(--c-terracotta);" data-reveal>Airbnb Neighborhoods</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        {neighborhoods.map((n) => (
+          <div
+            class="p-6"
+            data-reveal
+            style="border: 1px solid color-mix(in srgb, var(--c-ink) 10%, transparent);"
+          >
+            <h3 class="type-label mb-2" style="color: var(--c-ink);">{n.name}</h3>
+            <p style="color: color-mix(in srgb, var(--c-ink) 70%, transparent); font-size: var(--text-sm);">{n.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Practical notes -->
+    <section class="prose-wedding" data-reveal>
+      <h2 class="type-label mb-6" style="color: var(--c-terracotta);">Practical Notes</h2>
+      <p>
+        <strong>Book early.</strong> Santa Fe in July is peak season. The hotels listed above
+        fill up, especially on weekends around a big event. Don't wait.
+      </p>
+      <p>
+        <strong>Layers for evenings.</strong> Santa Fe is at 7,000 feet. July days are hot —
+        90s in the afternoon — but evenings cool down quickly, especially after a thunderstorm.
+        Bring something for the late-night walk back.
+      </p>
+      <p>
+        <strong>July thunderstorms.</strong> Afternoon monsoons are a feature, not a bug. They
+        come in fast, drop rain, and leave. Rarely a problem if you're indoors by 4 pm.
+        The ceremony starts at 6, so you should be fine.
+      </p>
+    </section>
+
+  </article>
+
+  <Footer />
+</Base>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  id: string
+  name: string
+  tagline: string
+  illustration: string
+}
+const { id, name, tagline, illustration } = Astro.props
+---
+<button
+  class="card-btn group text-left w-full cursor-pointer"
+  onclick={`document.getElementById('modal-${id}').showModal()`}
+  data-reveal
+>
+  <div
+    class="overflow-hidden mb-4 aspect-[4/3] flex items-center justify-center p-8 transition-colors"
+    style="background: var(--c-base-warm); border: 1px solid color-mix(in srgb, var(--c-ink) 10%, transparent);"
+    onmouseenter="this.style.borderColor='color-mix(in srgb, var(--c-terracotta) 40%, transparent)'"
+    onmouseleave="this.style.borderColor='color-mix(in srgb, var(--c-ink) 10%, transparent)'"
+  >
+    <img
+      src={illustration}
+      alt={name}
+      class="w-full h-full object-contain"
+      loading="lazy"
+      width="200"
+      height="150"
+    />
+  </div>
+  <h3 style="font-family: var(--font-family-body); font-size: var(--text-lg); margin-bottom: 0.25rem;">{name}</h3>
+  <p class="type-label" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">{tagline}</p>
+</button>

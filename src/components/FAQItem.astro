@@ -1,0 +1,30 @@
+---
+interface Props {
+  question: string
+}
+const { question } = Astro.props
+---
+<details class="faq-item group" data-reveal style="border-top: 1px solid color-mix(in srgb, var(--c-ink) 15%, transparent);">
+  <summary class="faq-question cursor-pointer py-5 flex justify-between items-center list-none">
+    <span style="font-family: var(--font-family-body); font-size: var(--text-lg);">{question}</span>
+    <span
+      class="faq-icon type-label transition-transform group-open:rotate-45"
+      aria-hidden="true"
+      style="color: color-mix(in srgb, var(--c-ink) 40%, transparent);"
+    >+</span>
+  </summary>
+  <div class="faq-answer pb-6 max-w-prose" style="color: color-mix(in srgb, var(--c-ink) 70%, transparent); line-height: 1.8;">
+    <slot />
+  </div>
+</details>
+
+<style>
+  .faq-item summary::-webkit-details-marker { display: none; }
+
+  @media (min-width: 768px) {
+    .faq-item .faq-icon { display: none; }
+    details.faq-item { display: block; }
+    .faq-item summary { cursor: default; pointer-events: none; }
+    .faq-item .faq-answer { display: block !important; }
+  }
+</style>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Wine glass -->
+  <path d="M45 20 L75 20 C75 20 80 50 70 65 C65 72 60 75 60 75 C60 75 55 72 50 65 C40 50 45 20 45 20Z"/>
+  <line x1="60" y1="75" x2="60" y2="100"/>
+  <line x1="42" y1="100" x2="78" y2="100"/>
+</svg>

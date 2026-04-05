@@ -1,0 +1,30 @@
+---
+interface Props {
+  text: string
+  subtext?: string
+  variant?: 'circle' | 'rect'
+  color?: 'terracotta' | 'sage'
+  rotate?: number
+  easterEgg?: boolean
+}
+
+const {
+  text,
+  subtext,
+  variant = 'circle',
+  color = 'terracotta',
+  rotate,
+  easterEgg = false,
+} = Astro.props
+
+const deg = rotate ?? Number((Math.random() * 6 - 3).toFixed(1))
+---
+<div
+  class:list={['stamp', `stamp--${variant}`, `stamp--${color}`]}
+  style={`--rotate: ${deg}deg`}
+  data-reveal="stamp"
+  data-easter={easterEgg ? 'stamp' : undefined}
+>
+  <span class="stamp__text">{text}</span>
+  {subtext && <span class="stamp__sub">{subtext}</span>}
+</div>

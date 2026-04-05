@@ -1,0 +1,75 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description?: string
+}
+
+const { title, description = 'Come eat with us in Santa Fe.' } = Astro.props
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- OG / Social -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://owenrowan.love/og-image.jpg" />
+    <meta property="og:url" content="https://owenrowan.love" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Prevent dark mode flash — must run before render -->
+    <script is:inline>
+      const t = localStorage.getItem('theme')
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches
+      if (t === 'dark' || (!t && d)) document.documentElement.classList.add('dark')
+    </script>
+
+    <ClientRouter />
+
+    <!-- Analytics — production only -->
+    {import.meta.env.PROD && (
+      <script
+        is:inline
+        defer
+        data-domain="owenrowan.love"
+        src="https://plausible.io/js/script.js"
+      />
+    )}
+
+    <!-- Hidden HTML source comment — for the curious -->
+    <!-- ♥ You found the source. Owen & Rowan built this together — July 11, 2026. Be good to each other. ♥ -->
+  </head>
+  <body>
+    <main transition:animate="fade">
+      <slot />
+    </main>
+
+    <!-- Dark mode toggle -->
+    <button
+      id="theme-toggle"
+      onclick="(window).__toggleDarkMode()"
+      class="fixed bottom-6 right-6 z-50 w-9 h-9 rounded-full border cursor-pointer"
+      style="border-color: color-mix(in srgb, var(--c-ink) 20%, transparent); background: var(--c-base); color: var(--c-ink);"
+      aria-label="Toggle dark mode"
+    >
+      <span class="dark:hidden">◑</span>
+      <span class="hidden dark:inline">◐</span>
+    </button>
+
+    <script src="../scripts/dark-mode.js"></script>
+    <script src="../scripts/reveal.js"></script>
+  </body>
+</html>

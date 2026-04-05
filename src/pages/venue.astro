@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import Footer from '../components/Footer.astro'
+---
+<Base title="The Venue — Owen & Rowan" description="New Mexico Museum of Art, Santa Fe. Directions, what to expect, and how to find us.">
+  <Breadcrumb />
+
+  <article class="px-6 max-w-3xl mx-auto pb-24">
+
+    <figure class="mb-16 -mx-6 md:mx-0" data-reveal>
+      <img
+        src="/illustrations/museum-facade.svg"
+        alt="New Mexico Museum of Art"
+        class="w-full"
+        loading="eager"
+        width="900"
+        height="500"
+      />
+    </figure>
+
+    <h1 class="type-display mb-4" style="font-size: clamp(2.5rem, 6vw, 4.5rem);" data-reveal>
+      New Mexico Museum of Art
+    </h1>
+    <p class="type-label mb-16" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);" data-reveal>
+      107 W Palace Ave, Santa Fe, NM 87501
+    </p>
+
+    <!-- About the space -->
+    <section class="prose-wedding mb-16" data-reveal>
+      <h2 class="type-label mb-6" style="color: var(--c-terracotta);">The Space</h2>
+      <p>
+        The New Mexico Museum of Art sits on the corner of Lincoln and Palace, one block from
+        the Plaza, and has been one of Santa Fe's most important buildings since 1917. The
+        architecture is Pueblo Revival — thick adobe walls, wooden vigas, portal columns —
+        designed to look as if it had always been there. The ceremony will take place in the
+        courtyard, which is one of the most beautiful enclosed outdoor spaces we know of.
+        Open sky, surrounded by the building's curved walls and portal, with a fountain at
+        the center.
+      </p>
+      <p>
+        If there's an afternoon thunderstorm (July is monsoon season in New Mexico — this is
+        possible), the ceremony moves inside the museum. The building is beautiful either way,
+        and New Mexico rain is brief and dramatic and exactly right for a wedding.
+      </p>
+    </section>
+
+    <!-- What to expect -->
+    <section class="prose-wedding mb-16" data-reveal>
+      <h2 class="type-label mb-6" style="color: var(--c-terracotta);">What to Expect</h2>
+      <p>
+        The ceremony begins at 6:00 pm. Doors open a little before — arrive by 5:45 to get
+        settled. Cocktail hour follows in the museum's interior spaces starting at 7:00 pm,
+        then dinner and dancing from 8:00 pm until 11:00 pm.
+      </p>
+      <p>
+        The evening ends at 11:00 pm. The Plaza and its bars and restaurants are a five-minute
+        walk if the night has more in it.
+      </p>
+      <p>
+        Catering details to come — we'll update this page when menus are confirmed.
+      </p>
+    </section>
+
+    <!-- Getting there -->
+    <section class="mb-16" data-reveal>
+      <h2 class="type-label mb-8" style="color: var(--c-terracotta);">Getting There</h2>
+
+      <div class="grid md:grid-cols-2 gap-12">
+        <div>
+          <address class="not-italic leading-relaxed mb-6 prose-wedding">
+            <strong class="type-label block mb-2">Address</strong>
+            New Mexico Museum of Art<br />
+            107 W Palace Ave<br />
+            Santa Fe, NM 87501
+          </address>
+          <div class="flex gap-6">
+            <a
+              href="https://maps.apple.com/?q=107+W+Palace+Ave+Santa+Fe+NM"
+              class="link-draw type-label"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Apple Maps ↗
+            </a>
+            <a
+              href="https://maps.google.com/?q=107+W+Palace+Ave,+Santa+Fe,+NM+87501"
+              class="link-draw type-label"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Google Maps ↗
+            </a>
+          </div>
+        </div>
+
+        <div class="prose-wedding">
+          <strong class="type-label block mb-4">Parking</strong>
+          <p>
+            Street parking on Palace Ave and around the Plaza fills early on summer evenings.
+            The Santa Fe Place Mall parking structure on Sandoval St is a short walk and
+            reliably has spaces. Alternatively: if you're staying downtown, you can walk.
+          </p>
+          <p>
+            Uber and Lyft operate in Santa Fe but supply is limited, especially for late-night
+            pickups. If you're planning to drink, factor in extra wait time or arrange a
+            designated driver in advance.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catering placeholder -->
+    <section class="prose-wedding" data-reveal style="background: var(--c-base-warm); padding: 2rem; border-left: 2px solid var(--c-ochre);">
+      <strong class="type-label block mb-3">Catering</strong>
+      <p style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
+        Caterer and menu details are being finalized. We'll update this page with full
+        information — including dietary accommodation details — once confirmed.
+      </p>
+    </section>
+
+  </article>
+
+  <Footer />
+</Base>

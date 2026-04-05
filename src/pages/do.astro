@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import Card from '../components/Card.astro'
+import Modal from '../components/Modal.astro'
+import Footer from '../components/Footer.astro'
+import { listings } from '../content/listings'
+---
+<Base title="Things to Do — Owen & Rowan" description="Our guide to spending time in Santa Fe and New Mexico.">
+  <Breadcrumb />
+
+  <article class="px-6 max-w-5xl mx-auto pb-24">
+
+    <h1 class="type-display mb-4" style="font-size: clamp(2.5rem, 6vw, 4.5rem);" data-reveal>
+      Things to Do
+    </h1>
+    <p class="mb-16 max-w-2xl" style="color: color-mix(in srgb, var(--c-ink) 70%, transparent);" data-reveal>
+      We love Santa Fe and more broadly New Mexico. Here's how we'd spend time if we were
+      visiting — which, in a few months, we all will be.
+    </p>
+
+    {listings.map(({ category, spotIllustration, items }) => (
+      <section class="mb-20">
+        <div class="flex items-center gap-6 mb-10" data-reveal>
+          <img
+            src={spotIllustration}
+            alt=""
+            aria-hidden="true"
+            class="w-12 h-12 flex-shrink-0"
+            width="48"
+            height="48"
+            style="color: var(--c-terracotta);"
+          />
+          <h2
+            class="type-display"
+            style="font-size: var(--text-2xl); border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 15%, transparent); padding-bottom: 0.75rem; flex: 1;"
+          >
+            {category}
+          </h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {items.map((item) => (
+            <>
+              <Card
+                id={item.id}
+                name={item.name}
+                tagline={item.tagline}
+                illustration={item.illustration}
+              />
+              <Modal
+                id={item.id}
+                name={item.name}
+                tagline={item.tagline}
+                description={item.description}
+                illustration={item.illustration}
+                practical={item.practical}
+              />
+            </>
+          ))}
+        </div>
+      </section>
+    ))}
+
+  </article>
+
+  <Footer />
+</Base>

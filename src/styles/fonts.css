@@ -1,0 +1,42 @@
+@font-face {
+  font-family: 'Canela Condensed';
+  src: url('/fonts/CanelaCondensed-Bold-Trial.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Canela Condensed';
+  src: url('/fonts/CanelaCondensed-BoldItalic-Trial.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Freight Text Pro';
+  src: url('/fonts/FreightTextProBook-Regular.woff2') format('woff2'),
+       url('/fonts/FreightTextProBook-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Freight Text Pro';
+  src: url('/fonts/FreightTextProBook-Italic.woff2') format('woff2'),
+       url('/fonts/FreightTextProBook-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Freight Text Pro';
+  src: url('/fonts/FreightTextProSemibold-Regular.woff2') format('woff2'),
+       url('/fonts/FreightTextProSemibold-Regular.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

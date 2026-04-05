@@ -1,0 +1,58 @@
+---
+interface Props {
+  id: string
+  name: string
+  tagline: string
+  illustration: string
+  description: string
+  practical?: string | null
+  url?: string
+}
+const { id, name, tagline, illustration, description, practical, url } = Astro.props
+---
+<dialog id={`modal-${id}`}>
+  <div class="p-8 space-y-6">
+    <img
+      src={illustration}
+      alt={name}
+      class="w-40 mx-auto"
+      width="160"
+      height="120"
+      loading="lazy"
+    />
+    <div>
+      <h2 class="type-display mb-2" style="font-size: var(--text-2xl);">{name}</h2>
+      {practical && (
+        <p class="type-label mb-4" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">{practical}</p>
+      )}
+      <p style="color: color-mix(in srgb, var(--c-ink) 80%, transparent); line-height: 1.8;">{description}</p>
+    </div>
+    <div
+      class="flex justify-between items-center pt-4"
+      style="border-top: 1px solid color-mix(in srgb, var(--c-ink) 15%, transparent);"
+    >
+      {url ? (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="type-label link-draw"
+          style="color: var(--c-terracotta);"
+        >
+          Visit website ↗
+        </a>
+      ) : (
+        <span class="type-label" style="color: color-mix(in srgb, var(--c-ink) 30%, transparent);">{tagline}</span>
+      )}
+      <button
+        onclick={`document.getElementById('modal-${id}').close()`}
+        class="type-label cursor-pointer transition-colors"
+        style="color: color-mix(in srgb, var(--c-ink) 40%, transparent);"
+        onmouseenter="this.style.color='var(--c-ink)'"
+        onmouseleave="this.style.color='color-mix(in srgb, var(--c-ink) 40%, transparent)'"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</dialog>

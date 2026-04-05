@@ -1,0 +1,38 @@
+---
+const links = [
+  ['/', 'Home'],
+  ['/venue', 'Venue'],
+  ['/stay', 'Where to Stay'],
+  ['/do', 'Things to Do'],
+  ['/faq', 'FAQ'],
+] as const
+---
+<footer class="mt-32 pt-12 pb-16 px-6 text-center" style="border-top: 1px solid color-mix(in srgb, var(--c-ink) 10%, transparent);">
+  <a href="/" aria-label="Home" class="inline-block mb-6 transition-opacity" style="opacity: 0.7;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.7'">
+    <img
+      src="/images/colophon.svg"
+      alt="O & R"
+      class="w-14 mx-auto dark:invert"
+      width="56"
+      height="56"
+    />
+  </a>
+
+  <p class="type-label mb-8" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">
+    July 11, 2026 — Santa Fe, NM
+  </p>
+
+  <nav aria-label="Site links" class="flex flex-wrap justify-center gap-x-8 gap-y-2">
+    {links.map(([href, label]) => (
+      <a
+        href={href}
+        class="type-label transition-colors"
+        style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);"
+        onmouseenter="this.style.color='var(--c-terracotta)'"
+        onmouseleave="this.style.color='color-mix(in srgb, var(--c-ink) 60%, transparent)'"
+      >
+        {label}
+      </a>
+    ))}
+  </nav>
+</footer>
