@@ -23,8 +23,17 @@ const { question } = Astro.props
 
   @media (min-width: 768px) {
     .faq-item .faq-icon { display: none; }
-    details.faq-item { display: block; }
     .faq-item summary { cursor: default; pointer-events: none; }
-    .faq-item .faq-answer { display: block !important; }
   }
 </style>
+
+<script>
+  function applyDesktopFAQ() {
+    const items = document.querySelectorAll<HTMLDetailsElement>('details.faq-item')
+    if (window.innerWidth >= 768) {
+      items.forEach((el) => { el.open = true })
+    }
+  }
+  applyDesktopFAQ()
+  window.addEventListener('resize', applyDesktopFAQ)
+</script>

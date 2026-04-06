@@ -2,6 +2,5 @@
 
 interface Window {
   __toggleDarkMode: () => void
-  checkRSVPPassword: () => void
   submitRSVP: (e: Event) => void
 }

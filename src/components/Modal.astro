@@ -4,20 +4,23 @@ interface Props {
   name: string
   tagline: string
   illustration: string
+  photo?: string
   description: string
   practical?: string | null
   url?: string
 }
-const { id, name, tagline, illustration, description, practical, url } = Astro.props
+const { id, name, tagline, illustration, photo, description, practical, url } = Astro.props
+const src = photo ?? illustration
+const isPhoto = !!photo
 ---
-<dialog id={`modal-${id}`}>
+<dialog id={`modal-${id}`} onclick={`if(event.target===this)this.close()`}>
   <div class="p-8 space-y-6">
     <img
-      src={illustration}
+      src={src}
       alt={name}
-      class="w-40 mx-auto"
-      width="160"
-      height="120"
+      class:list={[isPhoto ? 'w-full aspect-video object-cover' : 'w-40 mx-auto']}
+      width="400"
+      height={isPhoto ? '225' : '120'}
       loading="lazy"
     />
     <div>

@@ -42,7 +42,7 @@ import Footer from '../components/Footer.astro'
 
   <!-- ─── Story ────────────────────────────────────────────────────────────── -->
   <section class="px-6 py-24 max-w-3xl mx-auto">
-    <h2 class="type-label mb-12" style="color: var(--c-terracotta);" data-reveal>The Story</h2>
+    <h2 class="type-label-lg mb-12" style="color: var(--c-terracotta);" data-reveal>The Story</h2>
 
     <div class="prose-wedding">
       <p data-reveal>
@@ -90,7 +90,7 @@ import Footer from '../components/Footer.astro'
       <span aria-hidden="true">◆</span>
     </div>
 
-    <h2 class="type-label mb-12" style="color: var(--c-terracotta);" data-reveal>The Day</h2>
+    <h2 class="type-label-lg mb-12" style="color: var(--c-terracotta);" data-reveal>The Day</h2>
 
     <div class="grid md:grid-cols-2 gap-16">
 
@@ -157,195 +157,179 @@ import Footer from '../components/Footer.astro'
   </section>
 
   <!-- ─── RSVP ─────────────────────────────────────────────────────────────── -->
-  <section id="rsvp" class="px-6 py-24 max-w-2xl mx-auto">
-    <h2 class="type-label mb-3" style="color: var(--c-terracotta);" data-reveal>RSVP</h2>
-    <p class="type-label mb-12" style="color: color-mix(in srgb, var(--c-ink) 40%, transparent);" data-reveal>
+  <section id="rsvp" class="px-6 py-24 max-w-2xl mx-auto text-center">
+    <button
+      id="rsvp-open"
+      class="type-label px-16 py-5 cursor-pointer transition-colors"
+      style="border: 1px solid var(--c-terracotta); color: var(--c-terracotta); font-size: var(--text-base);"
+      onmouseenter="this.style.background='var(--c-terracotta)'; this.style.color='var(--c-base)'"
+      onmouseleave="this.style.background='transparent'; this.style.color='var(--c-terracotta)'"
+      data-reveal
+    >
+      RSVP
+    </button>
+    <p class="type-label-lg mt-6" style="color: color-mix(in srgb, var(--c-ink) 40%, transparent);" data-reveal>
       by June 11, 2026
     </p>
+  </section>
 
-    <div id="rsvp-gate" data-reveal>
-      <p class="mb-6" style="color: color-mix(in srgb, var(--c-ink) 70%, transparent);">
-        You'll need the password from your invitation.
-      </p>
-      <div class="flex gap-3">
-        <input
-          type="password"
-          id="rsvp-password"
-          placeholder="Password"
-          autocomplete="off"
-          class="flex-1 bg-transparent px-4 py-3"
-          style="border: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
-          onfocus="this.style.borderColor='var(--c-terracotta)'"
-          onblur="this.style.borderColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
-        />
+  <!-- ─── RSVP Modal ───────────────────────────────────────────────────────── -->
+  <dialog id="rsvp-dialog" aria-label="RSVP">
+    <div class="p-8">
+      <div class="flex justify-between items-start mb-8">
+        <h2 style="font-family: var(--font-family-body); font-size: var(--text-xl);">RSVP</h2>
         <button
-          onclick="checkRSVPPassword()"
-          class="type-label px-6 py-3 cursor-pointer transition-colors"
+          id="rsvp-close"
+          aria-label="Close"
+          class="type-label cursor-pointer"
+          style="color: color-mix(in srgb, var(--c-ink) 40%, transparent);"
+          onmouseenter="this.style.color='var(--c-ink)'"
+          onmouseleave="this.style.color='color-mix(in srgb, var(--c-ink) 40%, transparent)'"
+        >✕</button>
+      </div>
+
+      <form id="rsvp-form" class="space-y-8">
+        <label class="block">
+          <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">Your name</span>
+          <input
+            name="name"
+            required
+            class="w-full bg-transparent px-0 py-2"
+            style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
+            onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
+            onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
+          />
+        </label>
+
+        <fieldset class="border-0 p-0 m-0">
+          <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
+            Will you be there?
+          </legend>
+          <div class="flex gap-6">
+            {['Yes', 'No', 'Maybe'].map((val) => (
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="attending"
+                  value={val}
+                  required
+                  style="accent-color: var(--c-terracotta);"
+                />
+                <span style="font-family: var(--font-family-body);">{val}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <label class="block">
+          <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
+            Dietary restrictions
+          </span>
+          <input
+            name="dietary"
+            placeholder="None, vegetarian, gluten-free..."
+            class="w-full bg-transparent px-0 py-2"
+            style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
+            onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
+            onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
+          />
+        </label>
+
+        <fieldset class="border-0 p-0 m-0">
+          <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
+            Bringing a plus one?
+          </legend>
+          <div class="flex gap-6 mb-4">
+            {['Yes', 'No'].map((val) => (
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="plusOne"
+                  value={val}
+                  style="accent-color: var(--c-terracotta);"
+                  onchange={`document.getElementById('plus-one-name-wrap').style.display = '${val === 'Yes' ? 'block' : 'none'}'`}
+                />
+                <span style="font-family: var(--font-family-body);">{val}</span>
+              </label>
+            ))}
+          </div>
+          <div id="plus-one-name-wrap" style="display: none;">
+            <label class="block">
+              <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
+                Plus one's name
+              </span>
+              <input
+                name="plusOneName"
+                class="w-full bg-transparent px-0 py-2"
+                style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
+                onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
+                onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
+              />
+            </label>
+          </div>
+        </fieldset>
+
+        <label class="block">
+          <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
+            Anything else?
+          </span>
+          <textarea
+            name="message"
+            rows={3}
+            class="w-full bg-transparent px-0 py-2 resize-none"
+            style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
+            onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
+            onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
+          />
+        </label>
+
+        <button
+          type="submit"
+          class="type-label px-8 py-3 cursor-pointer transition-colors"
           style="border: 1px solid var(--c-terracotta); color: var(--c-terracotta);"
           onmouseenter="this.style.background='var(--c-terracotta)'; this.style.color='var(--c-base)'"
           onmouseleave="this.style.background='transparent'; this.style.color='var(--c-terracotta)'"
         >
-          Enter
+          Send RSVP
         </button>
+
+        <p id="rsvp-submitting" class="type-label hidden" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">
+          Sending…
+        </p>
+        <p id="rsvp-submit-error" class="type-label hidden" style="color: var(--c-terracotta);">
+          Something went wrong. Please try again or email us directly.
+        </p>
+      </form>
+
+      <div id="rsvp-confirm" class="hidden text-center py-8 space-y-4">
+        <img
+          src="/images/colophon.svg"
+          alt=""
+          class="w-16 mx-auto dark:invert"
+          style="opacity: 0.6;"
+          width="64"
+          height="64"
+        />
+        <p style="font-family: var(--font-family-body); font-size: var(--text-xl);">
+          We'll see you there.
+        </p>
       </div>
-      <p id="rsvp-error" class="type-label mt-3 hidden" style="color: var(--c-terracotta);">
-        That's not quite right.
-      </p>
     </div>
-
-    <form id="rsvp-form" class="hidden space-y-8">
-      <label class="block">
-        <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">Your name</span>
-        <input
-          name="name"
-          required
-          class="w-full bg-transparent px-0 py-2"
-          style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
-          onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
-          onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
-        />
-      </label>
-
-      <fieldset class="border-0 p-0 m-0">
-        <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
-          Will you be there?
-        </legend>
-        <div class="flex gap-6">
-          {['Yes', 'No', 'Maybe'].map((val) => (
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="attending"
-                value={val}
-                required
-                style="accent-color: var(--c-terracotta);"
-              />
-              <span style="font-family: var(--font-family-body);">{val}</span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <label class="block">
-        <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
-          Dietary restrictions
-        </span>
-        <input
-          name="dietary"
-          placeholder="None, vegetarian, gluten-free..."
-          class="w-full bg-transparent px-0 py-2"
-          style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
-          onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
-          onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
-        />
-      </label>
-
-      <fieldset class="border-0 p-0 m-0">
-        <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
-          Bringing a plus one?
-        </legend>
-        <div class="flex gap-6 mb-4">
-          {['Yes', 'No'].map((val) => (
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="plusOne"
-                value={val}
-                style="accent-color: var(--c-terracotta);"
-                onchange={`document.getElementById('plus-one-name-wrap').style.display = '${val === 'Yes' ? 'block' : 'none'}'`}
-              />
-              <span style="font-family: var(--font-family-body);">{val}</span>
-            </label>
-          ))}
-        </div>
-        <div id="plus-one-name-wrap" style="display: none;">
-          <label class="block">
-            <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
-              Plus one's name
-            </span>
-            <input
-              name="plusOneName"
-              class="w-full bg-transparent px-0 py-2"
-              style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
-              onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
-              onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
-            />
-          </label>
-        </div>
-      </fieldset>
-
-      <label class="block">
-        <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
-          Song request
-        </span>
-        <input
-          name="songRequest"
-          placeholder="We'll do our best"
-          class="w-full bg-transparent px-0 py-2"
-          style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
-          onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
-          onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
-        />
-      </label>
-
-      <label class="block">
-        <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
-          Anything else?
-        </span>
-        <textarea
-          name="message"
-          rows={3}
-          class="w-full bg-transparent px-0 py-2 resize-none"
-          style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
-          onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
-          onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
-        />
-      </label>
-
-      <button
-        type="submit"
-        class="type-label px-8 py-3 cursor-pointer transition-colors"
-        style="border: 1px solid var(--c-terracotta); color: var(--c-terracotta);"
-        onmouseenter="this.style.background='var(--c-terracotta)'; this.style.color='var(--c-base)'"
-        onmouseleave="this.style.background='transparent'; this.style.color='var(--c-terracotta)'"
-      >
-        Send RSVP
-      </button>
-
-      <p id="rsvp-submitting" class="type-label hidden" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">
-        Sending…
-      </p>
-      <p id="rsvp-submit-error" class="type-label hidden" style="color: var(--c-terracotta);">
-        Something went wrong. Please try again or email us directly.
-      </p>
-    </form>
-
-    <div id="rsvp-confirm" class="hidden text-center py-12 space-y-4">
-      <img
-        src="/images/colophon.svg"
-        alt=""
-        class="w-16 mx-auto dark:invert"
-        style="opacity: 0.6;"
-        width="64"
-        height="64"
-      />
-      <p style="font-family: var(--font-family-body); font-size: var(--text-xl);">
-        We'll see you there.
-      </p>
-    </div>
-  </section>
+  </dialog>
 
   <!-- ─── Registry ─────────────────────────────────────────────────────────── -->
   <section class="px-6 py-16 max-w-2xl mx-auto text-center">
-    <h2 class="type-label mb-6" style="color: var(--c-terracotta);" data-reveal>Registry</h2>
-    <p class="mb-4" style="color: color-mix(in srgb, var(--c-ink) 70%, transparent);" data-reveal>
-      Your presence is the gift. If you'd like to give something, we'll have a registry soon —
-      check back closer to the date.
+    <h2 class="type-label-lg mb-6" style="color: var(--c-terracotta);" data-reveal>Registry</h2>
+    <p class="mb-8" style="color: color-mix(in srgb, var(--c-ink) 70%, transparent);" data-reveal>
+      Your presence is the gift. If you'd like to bring something, we're registered on Zola.
     </p>
-    <p class="type-label" style="color: color-mix(in srgb, var(--c-ink) 30%, transparent);" data-reveal>
-      <!-- {{registry-url}} — link goes here when platform is decided -->
-      More details coming soon.
-    </p>
+    <a
+      href="/registry"
+      class="type-label link-draw"
+      data-reveal
+    >
+      View registry →
+    </a>
   </section>
 
   <!-- ─── Secondary page links ─────────────────────────────────────────────── -->
@@ -358,10 +342,11 @@ import Footer from '../components/Footer.astro'
     </h2>
     <nav aria-label="More info" class="space-y-4">
       {[
-        ['/venue',  'The Venue',      'About the New Mexico Museum of Art, directions, and what to expect.'],
-        ['/stay',   'Where to Stay',  'Our picks for hotels and neighborhoods in Santa Fe.'],
-        ['/do',     'Things to Do',   'A guide to spending time in one of our favorite cities.'],
-        ['/faq',    'FAQ',            'Attire, weather, food, and other things you might be wondering.'],
+        ['/venue',    'The Venue',      'About the New Mexico Museum of Art, directions, and what to expect.'],
+        ['/stay',     'Where to Stay',  'Our picks for hotels and neighborhoods in Santa Fe.'],
+        ['/do',       'Things to Do',   'A guide to spending time in one of our favorite cities.'],
+        ['/faq',      'FAQ',            'Attire, weather, food, and other things you might be wondering.'],
+        ['/registry', 'Registry',       'Things we\'d love, if you\'d like to bring something.'],
       ].map(([href, label, desc]) => (
         <a
           href={href}
@@ -406,33 +391,19 @@ import Footer from '../components/Footer.astro'
 </Base>
 
 <script>
-  let rsvpPassword = ''
+  const dialog = document.getElementById('rsvp-dialog') as HTMLDialogElement
 
-  window.checkRSVPPassword = function () {
-    const input = document.getElementById('rsvp-password') as HTMLInputElement
-    const error = document.getElementById('rsvp-error')
+  document.getElementById('rsvp-open')?.addEventListener('click', () => {
+    dialog.showModal()
+  })
 
-    fetch('/api/rsvp-check', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: input.value }),
-    })
-      .then((r) => r.json())
-      .then((data: { valid: boolean }) => {
-        if (data.valid) {
-          rsvpPassword = input.value
-          document.getElementById('rsvp-gate')?.classList.add('hidden')
-          document.getElementById('rsvp-form')?.classList.remove('hidden')
-          error?.classList.add('hidden')
-        } else {
-          error?.classList.remove('hidden')
-          input.focus()
-        }
-      })
-      .catch(() => {
-        error?.classList.remove('hidden')
-      })
-  }
+  document.getElementById('rsvp-close')?.addEventListener('click', () => {
+    dialog.close()
+  })
+
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close()
+  })
 
   window.submitRSVP = async function (e: Event) {
     e.preventDefault()
@@ -448,7 +419,6 @@ import Footer from '../components/Footer.astro'
     const formData = new FormData(form)
     const data: Record<string, string> = {}
     formData.forEach((val, key) => { data[key] = String(val) })
-    data['password'] = rsvpPassword
 
     try {
       const res = await fetch('/api/rsvp', {
@@ -460,6 +430,7 @@ import Footer from '../components/Footer.astro'
       if (res.ok) {
         document.getElementById('rsvp-form')?.classList.add('hidden')
         document.getElementById('rsvp-confirm')?.classList.remove('hidden')
+        setTimeout(() => { dialog.close() }, 2500)
       } else {
         submitBtn.disabled = false
         submitting?.classList.add('hidden')
@@ -471,10 +442,6 @@ import Footer from '../components/Footer.astro'
       submitError?.classList.remove('hidden')
     }
   }
-
-  document.getElementById('rsvp-password')?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') window.checkRSVPPassword()
-  })
 
   document.getElementById('rsvp-form')?.addEventListener('submit', (e) => {
     window.submitRSVP(e)

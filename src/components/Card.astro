@@ -4,8 +4,11 @@ interface Props {
   name: string
   tagline: string
   illustration: string
+  photo?: string
 }
-const { id, name, tagline, illustration } = Astro.props
+const { id, name, tagline, illustration, photo } = Astro.props
+const src = photo ?? illustration
+const isPhoto = !!photo
 ---
 <button
   class="card-btn group text-left w-full cursor-pointer"
@@ -13,18 +16,19 @@ const { id, name, tagline, illustration } = Astro.props
   data-reveal
 >
   <div
-    class="overflow-hidden mb-4 aspect-[4/3] flex items-center justify-center p-8 transition-colors"
+    class="overflow-hidden mb-4 aspect-[4/3] transition-colors"
+    class:list={[isPhoto ? '' : 'flex items-center justify-center p-8']}
     style="background: var(--c-base-warm); border: 1px solid color-mix(in srgb, var(--c-ink) 10%, transparent);"
     onmouseenter="this.style.borderColor='color-mix(in srgb, var(--c-terracotta) 40%, transparent)'"
     onmouseleave="this.style.borderColor='color-mix(in srgb, var(--c-ink) 10%, transparent)'"
   >
     <img
-      src={illustration}
+      src={src}
       alt={name}
-      class="w-full h-full object-contain"
+      class:list={['w-full h-full', isPhoto ? 'object-cover' : 'object-contain']}
       loading="lazy"
-      width="200"
-      height="150"
+      width="400"
+      height="300"
     />
   </div>
   <h3 style="font-family: var(--font-family-body); font-size: var(--text-lg); margin-bottom: 0.25rem;">{name}</h3>

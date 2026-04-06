@@ -45,7 +45,7 @@ NOTION_DATABASE_ID=
 ## Before launch
 
 - [ ] Add `NOTION_TOKEN` + `NOTION_DATABASE_ID` to `.env` and Vercel env vars
-- [ ] Add Song Request + Submitted At fields to Notion database
+- [ ] Add Submitted At field to Notion database
 - [ ] Purchase Canela Condensed web license (current files are Trial)
 - [ ] Design OG image → `public/og-image.jpg`
 - [ ] Generate `favicon.ico` + `apple-touch-icon.png`

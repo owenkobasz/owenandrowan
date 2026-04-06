@@ -4,25 +4,16 @@ import type { APIRoute } from 'astro'
 import { Client } from '@notionhq/client'
 
 interface RSVPBody {
-  password: string
   name: string
   attending: 'Yes' | 'No' | 'Maybe'
   dietary?: string
   plusOne?: 'Yes' | 'No'
   plusOneName?: string
-  songRequest?: string
   message?: string
 }
 
 export const POST: APIRoute = async ({ request }) => {
   const body = await request.json() as RSVPBody
-
-  if (body.password !== import.meta.env.RSVP_PASSWORD) {
-    return new Response(JSON.stringify({ error: 'Wrong password' }), {
-      status: 401,
-      headers: { 'Content-Type': 'application/json' },
-    })
-  }
 
   const notion = new Client({ auth: import.meta.env.NOTION_TOKEN })
 
@@ -46,9 +37,6 @@ export const POST: APIRoute = async ({ request }) => {
       },
       'Message': {
         rich_text: [{ text: { content: body.message ?? '' } }],
-      },
-      'Song Request': {
-        rich_text: [{ text: { content: body.songRequest ?? '' } }],
       },
       'Submitted At': {
         date: { start: new Date().toISOString() },

@@ -38,7 +38,7 @@ import { listings } from '../content/listings'
             {category}
           </h2>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
           {items.map((item) => (
             <>
               <Card
@@ -46,6 +46,7 @@ import { listings } from '../content/listings'
                 name={item.name}
                 tagline={item.tagline}
                 illustration={item.illustration}
+                photo={item.photo}
               />
               <Modal
                 id={item.id}
@@ -53,6 +54,7 @@ import { listings } from '../content/listings'
                 tagline={item.tagline}
                 description={item.description}
                 illustration={item.illustration}
+                photo={item.photo}
                 practical={item.practical}
               />
             </>

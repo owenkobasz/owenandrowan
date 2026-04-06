@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import Footer from '../components/Footer.astro'
+---
+<Base title="Registry — Owen & Rowan" description="Things we'd love, if you'd like to bring something.">
+  <Breadcrumb />
+
+  <article class="px-6 max-w-3xl mx-auto pb-24">
+
+    <h1 class="type-display mb-4" style="font-size: clamp(2.5rem, 6vw, 4.5rem);" data-reveal>
+      Registry
+    </h1>
+
+    <div class="prose-wedding mb-16" data-reveal>
+      <p>
+        Your presence is the gift. If you'd like to bring something,
+        here's a list of things we'd actually use. A few notes: we live in a
+        small apartment in Philadelphia, we have strong opinions about kitchen
+        equipment, and we have a dog who will immediately investigate anything
+        that arrives in a box.
+      </p>
+      <p>
+        We're also registered for a few experiences and cash funds — contributions
+        toward those are more than welcome if objects feel wrong.
+      </p>
+    </div>
+
+    <!-- Light island — Zola always renders light; prevents jarring dark mode clash -->
+    <div class="-mx-6 sm:mx-0 zola-wrapper" style="background: #F2EBD9;">
+      <a
+        class="zola-registry-embed"
+        href="https://www.zola.com/registry/owenrowan"
+        data-registry-key="owenrowan"
+      >Our Zola Wedding Registry</a>
+    </div>
+
+    <style>
+      .zola-wrapper iframe {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+      }
+    </style>
+
+    <p class="mt-8 text-center type-label" style="color: color-mix(in srgb, var(--c-ink) 30%, transparent);">
+      You can also browse directly at
+      <a
+        href="https://www.zola.com/registry/owenrowan"
+        class="link-draw"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="color: var(--c-terracotta);"
+      >
+        zola.com/registry/owenrowan ↗
+      </a>
+    </p>
+
+  </article>
+
+  <Footer />
+</Base>
+
+<script is:inline>
+  !function(e,t,n){var s,a=e.getElementsByTagName(t)[0];e.getElementById(n)||(s=e.createElement(t),s.id=n,s.async=!0,s.src="https://widget.zola.com/js/widget.js",a.parentNode.insertBefore(s,a))}(document,"script","zola-wjs");
+
+  // Strip the border Zola sets on its injected iframe
+  function stripZolaBorder() {
+    document.querySelectorAll('iframe').forEach(function(f) {
+      if (f.src && f.src.includes('zola.com')) {
+        f.style.border = 'none';
+        f.style.outline = 'none';
+        f.setAttribute('frameborder', '0');
+      }
+    });
+  }
+  // Poll briefly after page load to catch the iframe once Zola injects it
+  var attempts = 0;
+  var poll = setInterval(function() {
+    stripZolaBorder();
+    if (++attempts >= 20) clearInterval(poll);
+  }, 250);
+</script>
+
