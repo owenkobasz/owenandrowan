@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions'
+import Analytics from '@vercel/analytics/astro'
 import '../styles/global.css'
 
 interface Props {
@@ -51,6 +52,9 @@ const { title, description = 'Come eat with us in Santa Fe.', ogTitle = title } 
         src="https://plausible.io/js/script.js"
       />
     )}
+
+    <!-- Vercel Web Analytics -->
+    <Analytics />
 
     <!-- Hidden HTML source comment — for the curious -->
     <!-- ♥ You found the source. Owen & Rowan built this together — July 11, 2026. Be good to each other. ♥ -->
