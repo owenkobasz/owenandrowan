@@ -46,32 +46,14 @@ import Footer from '../components/Footer.astro'
 
     <div class="prose-wedding">
       <p data-reveal>
-        We met in Berlin, at the Bauhaus archive. The exhibit was crowded and we ended up
-        standing next to each other in front of the same object for longer than either of us
-        would normally stand in front of anything. We introduced ourselves. On the walk back,
-        Owen stopped at a German grocery and bought a mint plant. We made smoothies with it
-        that night in the apartment we were both staying in, for reasons that still don't
-        fully make sense, and talked until it was late.
+        We met in our junior year at St. John's in Santa Fe but had our first date in Berlin at the Bauhaus archive.
+        After leaving we rode the UBahn with a mint plant to make a a smoothiewe and talked late into the night.
+        We continued talking after returing to Santa Fe for senior year of college and the rest is history.
+
       </p>
 
       <p data-reveal>
-        We both ended up in Santa Fe — separately, then together. Owen arrived from Pennsylvania
-        and felt, immediately, like he'd landed on an alien planet in the best way: the light,
-        the altitude, the earth that was the wrong color for somewhere people were supposed to
-        live. Rowan had first come as a child visiting family friends and remembered mostly
-        the color and the sun. We went to school here, built a life here, and got engaged here —
-        camping in Diablo Canyon while a mattress slowly deflated and Esme ran up every cliff
-        she could find. Santa Fe is not just where we're getting married. It's <span data-easter="word" class="cursor-pointer border-b border-dashed" style="border-color: var(--c-ochre);">where</span> we became
-        what we are.
-      </p>
-
-      <p data-reveal>
-        We live in Philadelphia now — Northern Liberties, Kettle Black on weekend mornings,
-        coffee and whatever museum is showing something worth seeing. Owen plays Magic: The
-        Gathering with the focus of a person who takes this more seriously than most things.
-        Rowan builds elaborate Sims households and does not apologize for it. Esme remains
-        the dog. On July 11, we're coming back to Santa Fe to have a party in a courtyard
-        that has outlasted all of us by a few centuries, with the people we love most.
+        We live in Philadelphia now, but on July 11, we're returning to Santa Fe to get married!! The party will take place in beautiful museum with the people we love most.
         We hope you'll be there.
       </p>
     </div>
@@ -97,10 +79,12 @@ import Footer from '../components/Footer.astro'
       <div data-reveal>
         <div class="space-y-0" style="border-top: 1px solid color-mix(in srgb, var(--c-ink) 20%, transparent);">
           {[
-            { time: '6:00 pm',  event: 'Ceremony' },
-            { time: '7:00 pm',  event: 'Cocktail Hour' },
-            { time: '8:00 pm',  event: 'Dinner & Dancing' },
-            { time: '11:00 pm', event: 'End of Evening' },
+            { time: '5:00 pm',  event: 'Doors Open' },
+            { time: '5:30 pm',  event: 'Ceremony' },
+            { time: '6:00 pm',  event: 'Cocktail Hour' },
+            { time: '7:00 pm',  event: 'Dinner' },
+            { time: '8:00 pm',  event: 'Cake Cutting & Dancing' },
+            { time: '11:00 pm', event: 'End of the Celebration' },
           ].map(({ time, event }) => (
             <div
               class="flex justify-between items-baseline py-4"
@@ -121,8 +105,7 @@ import Footer from '../components/Footer.astro'
           Santa Fe, NM 87501
         </address>
         <p style="color: color-mix(in srgb, var(--c-ink) 60%, transparent); font-size: var(--text-sm);">
-          Ceremony in the museum courtyard. If it rains, we move inside —
-          the building is beautiful either way.
+          Ceremony in the museum courtyard. </br>If it rains we'll move inside.
         </p>
         <div class="flex gap-6">
           <a
@@ -223,7 +206,7 @@ import Footer from '../components/Footer.astro'
 
         <label class="block">
           <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
-            Dietary restrictions
+            <br />Dietary restrictions
           </span>
           <input
             name="dietary"
@@ -271,11 +254,11 @@ import Footer from '../components/Footer.astro'
 
         <label class="block">
           <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
-            Anything else?
+            Message for us 
           </span>
           <textarea
             name="message"
-            rows={3}
+            rows={1}
             class="w-full bg-transparent px-0 py-2 resize-none"
             style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
             onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
@@ -297,7 +280,7 @@ import Footer from '../components/Footer.astro'
           Sending…
         </p>
         <p id="rsvp-submit-error" class="type-label hidden" style="color: var(--c-terracotta);">
-          Something went wrong. Please try again or email us directly.
+          Something went wrong. Please try again or email us directly at owenkobasz@gmail.com.
         </p>
       </form>
 
@@ -311,26 +294,12 @@ import Footer from '../components/Footer.astro'
           height="64"
         />
         <p style="font-family: var(--font-family-body); font-size: var(--text-xl);">
-          We'll see you there.
+          We'll see you there!
         </p>
       </div>
     </div>
   </dialog>
 
-  <!-- ─── Registry ─────────────────────────────────────────────────────────── -->
-  <section class="px-6 py-16 max-w-2xl mx-auto text-center">
-    <h2 class="type-label-lg mb-6" style="color: var(--c-terracotta);" data-reveal>Registry</h2>
-    <p class="mb-8" style="color: color-mix(in srgb, var(--c-ink) 70%, transparent);" data-reveal>
-      Your presence is the gift. If you'd like to bring something, we're registered on Zola.
-    </p>
-    <a
-      href="/registry"
-      class="type-label link-draw"
-      data-reveal
-    >
-      View registry →
-    </a>
-  </section>
 
   <!-- ─── Secondary page links ─────────────────────────────────────────────── -->
   <section class="px-6 py-16 max-w-2xl mx-auto">
@@ -342,11 +311,11 @@ import Footer from '../components/Footer.astro'
     </h2>
     <nav aria-label="More info" class="space-y-4">
       {[
-        ['/venue',    'The Venue',      'About the New Mexico Museum of Art, directions, and what to expect.'],
-        ['/stay',     'Where to Stay',  'Our picks for hotels and neighborhoods in Santa Fe.'],
-        ['/do',       'Things to Do',   'A guide to spending time in one of our favorite cities.'],
-        ['/faq',      'FAQ',            'Attire, weather, food, and other things you might be wondering.'],
-        ['/registry', 'Registry',       'Things we\'d love, if you\'d like to bring something.'],
+        ['/venue',    'The Venue',      ''],
+        ['/stay',     'Where to Stay',  ''],
+        ['/do',       'Things to Do',   ''],
+        ['/registry', 'Registry',       ''],
+        ['/faq',      'FAQ',            ''],
       ].map(([href, label, desc]) => (
         <a
           href={href}

@@ -1,0 +1,267 @@
+---
+import Base from '../layouts/Base.astro'
+import { readdirSync, existsSync } from 'fs'
+import { join } from 'path'
+import { spawnSync } from 'child_process'
+
+const supported = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif'])
+const esmeDir = join(process.cwd(), 'public/images/esme')
+const allFiles = readdirSync(esmeDir)
+
+for (const f of allFiles.filter((f) => f.slice(f.lastIndexOf('.')).toLowerCase() === '.heic')) {
+  const outputName = f.slice(0, f.lastIndexOf('.')) + '.jpg'
+  const outputPath = join(esmeDir, outputName)
+  if (!existsSync(outputPath)) {
+    spawnSync('sips', ['-s', 'format', 'jpeg', join(esmeDir, f), '--out', outputPath])
+  }
+}
+
+const images: string[] = readdirSync(esmeDir)
+  .filter((f) => supported.has(f.slice(f.lastIndexOf('.')).toLowerCase()))
+  .map((f) => `/images/esme/${f}`)
+---
+<Base title="Esme">
+  <div id="esme-canvas">
+    {images.map((src, i) => (
+      <button class="esme-thumb" data-src={src} data-index={String(i)} aria-label="View photo">
+        <img src={src} alt="" loading="lazy" draggable="false" />
+      </button>
+    ))}
+  </div>
+
+  <dialog id="esme-lightbox">
+    <img src="" alt="Esme" />
+  </dialog>
+
+  <div id="esme-intro" aria-live="polite">
+    <span id="esme-intro-text"></span>
+    <span id="esme-intro-cursor">|</span>
+  </div>
+</Base>
+
+<style is:global>
+  body:has(#esme-canvas) {
+    overflow: hidden;
+    background: var(--c-base-warm);
+  }
+</style>
+
+<style>
+  #esme-canvas {
+    position: fixed;
+    inset: 0;
+    overflow: visible;
+  }
+
+  .esme-thumb {
+    position: absolute;
+    width: min(180px, 28vw);
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--c-ink) 18%, transparent);
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    will-change: transform;
+    transition: box-shadow 0.2s ease;
+    opacity: 0;
+  }
+
+  .esme-thumb.ready {
+    opacity: 1;
+    transition: box-shadow 0.2s ease, opacity 0.4s ease;
+  }
+
+  .esme-thumb:hover {
+    animation-play-state: paused;
+    box-shadow: 0 8px 32px color-mix(in srgb, var(--c-ink) 28%, transparent);
+  }
+
+  .esme-thumb img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  #esme-intro {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 1.2s ease;
+  }
+
+  #esme-intro.fade-out {
+    opacity: 0;
+  }
+
+  #esme-intro-text {
+    font-family: var(--font-family-display);
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: var(--c-ink);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  #esme-intro-cursor {
+    font-family: var(--font-family-display);
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: var(--c-terracotta);
+    animation: blink 0.8s step-end infinite;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  #esme-lightbox {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    border: none;
+    background: transparent;
+    padding: 0;
+    width: fit-content;
+    height: fit-content;
+    max-width: 90vw;
+    max-height: 90vh;
+  }
+
+  #esme-lightbox::backdrop {
+    background: color-mix(in srgb, var(--c-ink) 75%, transparent);
+    backdrop-filter: blur(4px);
+  }
+
+  #esme-lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 6px;
+    display: block;
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById('esme-canvas') as HTMLElement
+  const thumbs = document.querySelectorAll<HTMLElement>('.esme-thumb')
+  const dialog = document.getElementById('esme-lightbox') as HTMLDialogElement
+  const lightboxImg = dialog.querySelector('img') as HTMLImageElement
+  document.body.appendChild(dialog)
+
+  const rand = (min: number, max: number): number =>
+    Math.random() * (max - min) + min
+
+  const randPx = (range: number): number =>
+    Math.round((Math.random() - 0.5) * 2 * range)
+
+  // Virtual canvas is SCALE× the viewport in each dimension
+  const SCALE = 3
+  const vW = window.innerWidth
+  const vH = window.innerHeight
+  const extraW = ((SCALE - 1) / 2) * vW
+  const extraH = ((SCALE - 1) / 2) * vH
+
+  const keyframes: string[] = []
+
+  thumbs.forEach((thumb, i) => {
+    const name = `drift-${i}`
+    keyframes.push(`
+      @keyframes ${name} {
+        0%   { transform: translate(0px, 0px) rotate(${randPx(6)}deg); }
+        25%  { transform: translate(${randPx(140)}px, ${randPx(110)}px) rotate(${randPx(6)}deg); }
+        50%  { transform: translate(${randPx(110)}px, ${randPx(140)}px) rotate(${randPx(6)}deg); }
+        75%  { transform: translate(${randPx(140)}px, ${randPx(100)}px) rotate(${randPx(6)}deg); }
+        100% { transform: translate(${randPx(120)}px, ${randPx(130)}px) rotate(${randPx(6)}deg); }
+      }
+    `)
+
+    const thumbW = thumb.offsetWidth || 180
+    const thumbH = thumb.offsetHeight || 240
+    const pad = 40
+    const x = rand(-extraW + pad, vW + extraW - thumbW - pad)
+    const y = rand(-extraH + pad, vH + extraH - thumbH - pad)
+    const duration = rand(8, 18)
+    const delay = -rand(0, duration)
+
+    thumb.style.left = `${x}px`
+    thumb.style.top = `${y}px`
+    thumb.style.animationName = name
+    thumb.style.animationDuration = `${duration}s`
+    thumb.style.animationDelay = `${delay}s`
+
+    requestAnimationFrame(() => thumb.classList.add('ready'))
+  })
+
+  const styleEl = document.createElement('style')
+  styleEl.textContent = keyframes.join('\n')
+  document.head.appendChild(styleEl)
+
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      const src = thumb.dataset.src ?? ''
+      lightboxImg.src = src
+      dialog.showModal()
+    })
+  })
+
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close()
+  })
+
+  // Canvas pan — mouse position maps to full virtual canvas range
+  const LERP = 0.06
+  let mouseX = vW / 2
+  let mouseY = vH / 2
+  let panX = 0
+  let panY = 0
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX
+    mouseY = e.clientY
+  })
+
+  const tick = () => {
+    const targetX = -(mouseX / vW - 0.5) * (SCALE - 1) * vW
+    const targetY = -(mouseY / vH - 0.5) * (SCALE - 1) * vH
+    panX += (targetX - panX) * LERP
+    panY += (targetY - panY) * LERP
+    canvas.style.transform = `translate(${panX}px, ${panY}px)`
+    requestAnimationFrame(tick)
+  }
+
+  tick()
+
+  // Typewriter intro
+  const intro = document.getElementById('esme-intro') as HTMLElement
+  const introText = document.getElementById('esme-intro-text') as HTMLElement
+  const introCursor = document.getElementById('esme-intro-cursor') as HTMLElement
+  const message = 'You Found Esme\'s Page!'
+  let charIndex = 0
+
+  const type = () => {
+    if (charIndex < message.length) {
+      introText.textContent += message[charIndex]
+      charIndex++
+      setTimeout(type, 75)
+    } else {
+      setTimeout(() => {
+        introCursor.style.display = 'none'
+        intro.classList.add('fade-out')
+        intro.addEventListener('transitionend', () => intro.remove(), { once: true })
+      }, 1800)
+    }
+  }
+
+  setTimeout(type, 400)
+</script>

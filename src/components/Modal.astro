@@ -8,8 +8,9 @@ interface Props {
   description: string
   practical?: string | null
   url?: string
+  linkLabel?: string
 }
-const { id, name, tagline, illustration, photo, description, practical, url } = Astro.props
+const { id, name, tagline, illustration, photo, description, practical, url, linkLabel = 'Visit website ↗' } = Astro.props
 const src = photo ?? illustration
 const isPhoto = !!photo
 ---
@@ -42,7 +43,7 @@ const isPhoto = !!photo
           class="type-label link-draw"
           style="color: var(--c-terracotta);"
         >
-          Visit website ↗
+          {linkLabel}
         </a>
       ) : (
         <span class="type-label" style="color: color-mix(in srgb, var(--c-ink) 30%, transparent);">{tagline}</span>

@@ -1,7 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-  <!-- Chili pepper / ristra motif -->
-  <path d="M60 20 C60 20 55 35 50 50 C45 65 42 80 45 90 C48 100 55 105 60 105 C65 105 72 100 75 90 C78 80 75 65 70 50 C65 35 60 20 60 20Z"/>
-  <path d="M60 20 C62 15 65 10 63 5"/>
-  <path d="M50 60 C44 58 38 60 35 65"/>
-  <path d="M70 60 C76 58 82 60 85 65"/>
+  <!-- Slice left edge -->
+  <line x1="15" y1="32" x2="60" y2="95"/>
+  <!-- Slice right edge -->
+  <line x1="105" y1="32" x2="60" y2="95"/>
+  <!-- Crust -->
+  <path d="M15 32 Q60 12 105 32"/>
+  <!-- Crust thickness line -->
+  <path d="M22 38 Q60 20 98 38"/>
+  <!-- Pepperoni -->
+  <circle cx="60" cy="46" r="7"/>
+  <circle cx="42" cy="60" r="6"/>
+  <circle cx="78" cy="60" r="6"/>
 </svg>
