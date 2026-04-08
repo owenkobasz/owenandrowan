@@ -17,7 +17,7 @@ export const hotels: Hotel[] = [
     description: "A small, owner-operated inn tucked between the Plaza and Canyon Road. The rooms feel like a thoughtful person lives there. Friendly staff, good breakfast, and a five-minute walk to the venue.",
     illustration: '/illustrations/hotels/inn-on-alameda.svg',
     photo: '/images/hotels/inn-on-alameda.webp',
-    url: 'https://innonalamedа.com',
+    url: 'https://www.innonthealameda.com/',
     practical: '~10 min walk to the venue.',
   },
   {

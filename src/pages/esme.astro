@@ -219,21 +219,51 @@ const images: string[] = readdirSync(esmeDir)
     if (e.target === dialog) dialog.close()
   })
 
-  // Canvas pan — mouse position maps to full virtual canvas range
   const LERP = 0.06
-  let mouseX = vW / 2
-  let mouseY = vH / 2
+  const GAMMA_RANGE = 45
+  const BETA_RANGE  = 30
+
+  let inputX = vW / 2
+  let inputY = vH / 2
   let panX = 0
   let panY = 0
+  let gyroActive = false
+  let betaRef: number | null = null
 
   window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX
-    mouseY = e.clientY
+    if (!gyroActive) {
+      inputX = e.clientX
+      inputY = e.clientY
+    }
   })
 
+  function handleOrientation(e: DeviceOrientationEvent) {
+    const gamma = e.gamma ?? 0
+    const beta  = e.beta  ?? 0
+    if (betaRef === null) betaRef = beta
+    gyroActive = true
+    inputX = Math.max(0, Math.min(vW, vW / 2 + (gamma / GAMMA_RANGE) * (vW / 2)))
+    inputY = Math.max(0, Math.min(vH, vH / 2 + ((beta - betaRef) / BETA_RANGE) * (vH / 2)))
+  }
+
+  async function enableGyro() {
+    if (typeof (DeviceOrientationEvent as { requestPermission?: () => Promise<string> }).requestPermission === 'function') {
+      try {
+        const result = await (DeviceOrientationEvent as { requestPermission: () => Promise<string> }).requestPermission()
+        if (result !== 'granted') return
+      } catch { return }
+    }
+    window.addEventListener('deviceorientation', handleOrientation)
+  }
+
+  canvas.addEventListener('touchstart', () => {
+    if (!gyroActive) enableGyro()
+    else betaRef = null
+  }, { passive: true })
+
   const tick = () => {
-    const targetX = -(mouseX / vW - 0.5) * (SCALE - 1) * vW
-    const targetY = -(mouseY / vH - 0.5) * (SCALE - 1) * vH
+    const targetX = -(inputX / vW - 0.5) * (SCALE - 1) * vW
+    const targetY = -(inputY / vH - 0.5) * (SCALE - 1) * vH
     panX += (targetX - panX) * LERP
     panY += (targetY - panY) * LERP
     canvas.style.transform = `translate(${panX}px, ${panY}px)`
