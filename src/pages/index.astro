@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro'
 import Stamp from '../components/Stamp.astro'
 import Footer from '../components/Footer.astro'
 ---
-<Base title="Owen & Rowan — July 11, 2026">
+<Base title="Owen & Rowan — July 11, 2026" ogTitle="Owen & Rowan Wedding">
 
   <!-- ─── Hero ────────────────────────────────────────────────────────────── -->
   <section class="min-h-screen flex flex-col justify-center px-6 pt-24 pb-16 relative overflow-hidden">
@@ -293,7 +293,7 @@ import Footer from '../components/Footer.astro'
           width="64"
           height="64"
         />
-        <p style="font-family: var(--font-family-body); font-size: var(--text-xl);">
+        <p id="rsvp-confirm-msg" style="font-family: var(--font-family-body); font-size: var(--text-xl);">
           We'll see you there!
         </p>
       </div>
@@ -397,6 +397,14 @@ import Footer from '../components/Footer.astro'
       })
 
       if (res.ok) {
+        const confirmMsg = document.getElementById('rsvp-confirm-msg')
+        if (confirmMsg) {
+          if (data.attending === 'No') {
+            confirmMsg.textContent = "We'll miss you. Thanks for letting us know."
+          } else if (data.attending === 'Maybe') {
+            confirmMsg.textContent = "Hope you can make it — let us know when you know!"
+          }
+        }
         document.getElementById('rsvp-form')?.classList.add('hidden')
         document.getElementById('rsvp-confirm')?.classList.remove('hidden')
         setTimeout(() => { dialog.close() }, 2500)

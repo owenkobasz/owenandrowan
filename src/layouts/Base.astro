@@ -5,9 +5,10 @@ import '../styles/global.css'
 interface Props {
   title: string
   description?: string
+  ogTitle?: string
 }
 
-const { title, description = 'Come eat with us in Santa Fe.' } = Astro.props
+const { title, description = 'Come eat with us in Santa Fe.', ogTitle = title } = Astro.props
 ---
 <html lang="en">
   <head>
@@ -18,9 +19,11 @@ const { title, description = 'Come eat with us in Santa Fe.' } = Astro.props
     <meta name="description" content={description} />
 
     <!-- OG / Social -->
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="https://owenrowan.love/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
     <meta property="og:url" content="https://owenrowan.love" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
