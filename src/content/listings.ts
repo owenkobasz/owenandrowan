@@ -145,8 +145,8 @@ export const listings: ListingCategory[] = [
       {
         id: 'las-vegas-hotsprings',
         name: 'Montezuma Hot Springs',
-        tagline: 'Free roadside hot springs, one hour from Santa Fe.',
-        description: "The Montezuma Hot Springs sit right off the road outside Las Vegas, NM — free, open to the public, and genuinely lovely. Several pools of varying temperature fed by natural springs, with views of the Sangre de Cristo foothills. The drive through the high desert is great on its own.",
+        tagline: 'Free roadside hot springs.',
+        description: "The Montezuma Hot Springs sit right off the road outside Las Vegas, NM — free, open to the public, and genuinely lovely. Several pools of varying temperature fed by natural springs, with views of the Sangre de Cristo foothills.",
         illustration: '/illustrations/listings/las-vegas-hotsprings.svg',
         photo: '/images/activities/Montezuma Hot Springs.jpg',
         practical: 'About 1 hour east of Santa Fe near the Armand Hammer college. Bring a towel.',
