@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro'
 <Base title="Owen & Rowan — July 11, 2026" ogTitle="Owen & Rowan Wedding">
 
   <!-- ─── Hero ────────────────────────────────────────────────────────────── -->
-  <section class="min-h-screen flex flex-col justify-center px-6 pt-24 pb-16 relative overflow-hidden">
+  <section class="min-h-screen flex flex-col px-6 pt-16 md:pt-24 pb-16 relative overflow-hidden">
 
     <img
       src="/illustrations/pinon-bg.svg"
@@ -18,25 +18,63 @@ import Footer from '../components/Footer.astro'
       height="600"
     />
 
-    <div class="relative z-10 max-w-5xl mx-auto w-full">
-      <p class="type-label mb-6" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);" data-reveal>
-        New Mexico Museum of Art — Santa Fe
-      </p>
+    <!-- Mobile-only: location label at top of window -->
+    <p class="md:hidden relative z-10 type-label max-w-5xl w-full mx-auto mb-6" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);" data-reveal>
+      New Mexico Museum of Art — Santa Fe
+    </p>
 
-      <h1
-        class="type-display leading-none mb-8"
-        style="font-size: var(--text-hero);"
-        data-reveal
-      >
-        Owen<br />&amp;<br />Rowan
-      </h1>
+    <!-- Main content: fills remaining vertical space, side-by-side on all sizes -->
+    <div class="relative z-10 flex-1 max-w-5xl mx-auto w-full flex flex-col justify-center">
 
-      <div class="flex items-center gap-8" data-reveal>
+      <!-- Heading + photo row -->
+      <div class="flex flex-row items-start gap-3 md:items-center md:gap-16">
+
+        <!-- Left: heading (+ stamp on desktop) -->
+        <div class="flex-1 min-w-0 mt-10 md:mt-0">
+          <!-- Desktop-only label inside the text column -->
+          <p class="hidden md:block type-label mb-6" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);" data-reveal>
+            New Mexico Museum of Art — Santa Fe
+          </p>
+
+          <h1
+            class="type-display leading-none mb-4 md:mb-8"
+            style="font-size: clamp(4.5rem, 10vw, 8rem);"
+            data-reveal
+          >
+            Owen<br />&amp;<br />Rowan
+          </h1>
+
+          <!-- Desktop-only stamp+tagline inside the text column -->
+          <div class="hidden md:flex items-center gap-8" data-reveal>
+            <Stamp text="July 11" subtext="2026" variant="circle" color="terracotta" easterEgg={true} />
+            <p class="max-w-xs leading-relaxed" style="color: color-mix(in srgb, var(--c-ink) 70%, transparent);">
+              A wedding in the high desert.
+            </p>
+          </div>
+        </div>
+
+        <!-- Photo: shown on all sizes, top-aligned on mobile, centered on desktop -->
+        <div class="flex-shrink-0 w-[52%] md:w-64 lg:w-80 xl:w-96 -mt-30 md:mt-0" data-reveal>
+          <img
+            src="/images/main.JPG"
+            alt="Owen and Rowan"
+            width="550"
+            height="550"
+            class="w-full h-auto"
+            style="filter: grayscale(100%); opacity: 0.9; mix-blend-mode: multiply;"
+          />
+        </div>
+
+      </div>
+
+      <!-- Mobile-only stamp+tagline below the heading/photo row -->
+      <div class="flex md:hidden items-center gap-8 mt-3" data-reveal>
         <Stamp text="July 11" subtext="2026" variant="circle" color="terracotta" easterEgg={true} />
-        <p class="max-w-xs leading-relaxed" style="color: color-mix(in srgb, var(--c-ink) 70%, transparent);">
+        <p class="leading-relaxed" style="color: color-mix(in srgb, var(--c-ink) 70%, transparent);">
           A wedding in the high desert.
         </p>
       </div>
+
     </div>
   </section>
 
@@ -46,7 +84,7 @@ import Footer from '../components/Footer.astro'
 
     <div class="prose-wedding">
       <p data-reveal>
-        We met in our junior year at St. John's College in Santa Fe but had our first date in Berlin at the Bauhaus Archive. After leaving we rode the UBahn after buying a mint plant to make a smoothie. We ended up talking late into the night. We continued talking after returning to Santa Fe for our senior year of college and the rest is history.
+        We met in our junior year at St. John's College in Santa Fe but had our first date in Berlin at the <button class="story-hint" data-photo="/images/story/rowan_bauhaus.JPG">Bauhaus Archive</button>. After leaving we rode the UBahn after buying a <button class="story-hint" data-photo="/images/story/mint.JPG">mint plant</button> to make a <button class="story-hint" data-photo="/images/story/smoothie.JPG">smoothie</button>. We ended up talking late into the night. We continued talking after returning to Santa Fe for our senior year of college and the rest is history.
 
       </p>
 
@@ -63,6 +101,17 @@ import Footer from '../components/Footer.astro'
       </p>
     </aside>
   </section>
+
+  <!-- ─── Story image ─────────────────────────────────────────────────────── -->
+  <div class="px-6 max-w-3xl mx-auto w-full" data-reveal>
+    <img
+      src="/images/story/sunset.png"
+      alt=""
+      aria-hidden="true"
+      class="h-auto"
+      style="filter: grayscale(100%); opacity: 0.9; mix-blend-mode: multiply;"
+    />
+  </div>
 
   <!-- ─── The Day ──────────────────────────────────────────────────────────── -->
   <section class="px-6 py-24 max-w-4xl mx-auto">
@@ -334,6 +383,12 @@ import Footer from '../components/Footer.astro'
     </nav>
   </section>
 
+  <!-- ─── Photo lightbox ──────────────────────────────────────────────────── -->
+  <dialog id="photo-lightbox" aria-label="Photo">
+    <button id="lightbox-close" aria-label="Close" style="position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--c-base);font-size:1.5rem;line-height:1;opacity:0.7;">✕</button>
+    <img id="lightbox-img" src="" alt="" style="display:block;max-width:min(90vw,600px);max-height:85vh;width:auto;height:auto;" />
+  </dialog>
+
   <!-- ─── Easter egg: Konami overlay ───────────────────────────────────────── -->
   <div
     id="konami-overlay"
@@ -352,6 +407,17 @@ import Footer from '../components/Footer.astro'
         Click anywhere to close.
       </p>
     </div>
+  </div>
+
+  <!-- ─── Closing image ───────────────────────────────────────────────────── -->
+  <div class="px-6 max-w-3xl mx-auto w-full" data-reveal>
+    <img
+      src="/images/story/arizona.JPG"
+      alt=""
+      aria-hidden="true"
+      class="h-auto"
+      style="filter: grayscale(100%); opacity: 0.9; mix-blend-mode: multiply;"
+    />
   </div>
 
   <Footer />
@@ -424,3 +490,42 @@ import Footer from '../components/Footer.astro'
 </script>
 
 <script src="../scripts/easter-eggs.js"></script>
+
+<script>
+  const lightbox = document.getElementById('photo-lightbox') as HTMLDialogElement
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement
+
+  document.querySelectorAll<HTMLButtonElement>('.story-hint[data-photo]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      lightboxImg.src = btn.dataset.photo!
+      lightbox.showModal()
+    })
+  })
+
+  document.getElementById('lightbox-close')?.addEventListener('click', () => lightbox.close())
+  lightbox?.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.close() })
+</script>
+
+<style>
+  .story-hint {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    border-bottom: 1px dotted color-mix(in srgb, var(--c-ink) 25%, transparent);
+  }
+
+  #photo-lightbox {
+    background: transparent;
+    border: none;
+    padding: 0;
+    overflow: visible;
+  }
+
+  #photo-lightbox::backdrop {
+    background: color-mix(in srgb, var(--c-ink) 80%, transparent);
+    backdrop-filter: blur(4px);
+  }
+</style>
