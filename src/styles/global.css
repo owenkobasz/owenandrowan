@@ -224,7 +224,7 @@ body::after {
   outline: 0.5px solid currentColor;
   outline-offset: 3px;
   padding: 1rem;
-  font-size: 0.7rem;
+  font-size: 1.1rem;
   text-align: center;
 }
 
