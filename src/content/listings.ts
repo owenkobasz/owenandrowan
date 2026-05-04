@@ -176,15 +176,6 @@ export const listings: ListingCategory[] = [
         practical: 'Small, cash-preferred, closes early. Breakfast/lunch.',
       },
       {
-        id: 'the-pantry',
-        name: 'The Pantry',
-        tagline: 'The classic Santa Fe diner.',
-        description: "A classic New Mexican diner that has been feeding Santa Fe since 1948. Breakfast all day, huge portions, green and red chile on everything.",
-        illustration: '/illustrations/listings/the-pantry.svg',
-        photo: '/images/activities/The Pantry.jpg',
-        practical: 'On Cerrillos Rd. Breakfast and lunch only.',
-      },
-      {
         id: 'izunami',
         name: 'Izanami',
         tagline: 'Japanese izakaya on the mountain.',
@@ -201,6 +192,24 @@ export const listings: ListingCategory[] = [
         illustration: '/illustrations/listings/harrys-road-house.svg',
         photo: "/images/activities/Harry's Road House.jpg",
         practical: 'Old Las Vegas Highway — a short drive from downtown.',
+      },
+      {
+        id: 'ras-rhodys',
+        name: "Ras Rhody's",
+        tagline: 'Vegan Jamaican food truck.',
+        description: "A food truck serving vegan Jamaican food from the owner's front yard. Menu rotates daily but always slaps. The type of meal that leaves you feeling alive.",
+        illustration: '/illustrations/listings/ras-rhodys.svg',
+        photo: "/images/activities/Ras Rhody's.webp",
+        practical: 'Food truck — check social media before going.',
+      },
+      {
+        id: 'sweet-water',
+        name: "Sweetwater Harvest Kitchen",
+        tagline: 'Comfort health food.',
+        description: `A favorite spot for nourishing lunch or brunch with great vegetarian and vegan options. Rowan loves the Buddha Bowl and the <a href="https://mushroommama.com/" target="_blank" rel="noopener noreferrer" style="color: var(--c-terracotta);">Mushroom Mama</a> turmeric latte.`,
+        illustration: '/illustrations/listings/sweet-water.jpg',
+        photo: "/images/activities/sweet-water.jpg",
+        practical: 'Warm and healthy',
       },
       {
         id: 'the-shed',
@@ -221,15 +230,6 @@ export const listings: ListingCategory[] = [
         practical: 'Reservations recommended, especially on weekends.',
       },
       {
-        id: 'ras-rhodys',
-        name: "Ras Rhody's",
-        tagline: 'Vegan Jamaican food truck.',
-        description: "A food truck serving vegan Jamaican food from the owner's front yard. Menu rotates daily but always slaps. The type of meal that leaves you feeling alive.",
-        illustration: '/illustrations/listings/ras-rhodys.svg',
-        photo: "/images/activities/Ras Rhody's.webp",
-        practical: 'Food truck — check social media before going.',
-      },
-      {
         id: 'la-choza',
         name: 'La Choza',
         tagline: "The Shed's less-touristy sister.",
@@ -239,6 +239,15 @@ export const listings: ListingCategory[] = [
         practical: 'On Alarid St, near the Railyard. Closed Sundays.',
       },
       {
+        id: 'the-pantry',
+        name: 'The Pantry',
+        tagline: 'The classic Santa Fe diner.',
+        description: "A classic New Mexican diner that has been feeding Santa Fe since 1948. Breakfast all day, huge portions, green and red chile on everything.",
+        illustration: '/illustrations/listings/the-pantry.svg',
+        photo: '/images/activities/The Pantry.jpg',
+        practical: 'On Cerrillos Rd. Breakfast and lunch only.',
+      },
+      /**{
         id: 'kakawa',
         name: 'Kakawa Chocolate House',
         tagline: 'Drinking chocolate.',
@@ -246,7 +255,7 @@ export const listings: ListingCategory[] = [
         illustration: '/illustrations/listings/kakawa.svg',
         photo: '/images/activities/Kakawa Chocolate House.jpg',
         practical: 'Small shop on Canyon Road. Worth combining with a gallery walk.',
-      },
+      },**/
     ],
   },
   {
