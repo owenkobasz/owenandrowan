@@ -27,26 +27,16 @@ import RsvpModal from '../components/RsvpModal.astro'
       style="filter: grayscale(100%); opacity: 0.9; mix-blend-mode: multiply;"
     />
 
-    <!-- ─── When ───────────────────────────────────────────────────────── -->
+    <!-- ─── When & where ───────────────────────────────────────────────── -->
     <section class="mb-12">
-      <h2 class="type-label-lg mb-3" style="color: var(--c-terracotta);">When</h2>
       <p style="font-size: var(--text-xl); font-family: var(--font-family-display); font-weight: 700;">
         Saturday, July 11, 2026
       </p>
       <p style="font-size: var(--text-lg);">
+        New Mexico Museum of Art<br />
         Doors open at 5:00 pm<br />
         Ceremony begins at 5:30 pm
       </p>
-    </section>
-
-    <!-- ─── Where ──────────────────────────────────────────────────────── -->
-    <section class="mb-12">
-      <h2 class="type-label-lg mb-3" style="color: var(--c-terracotta);">Where</h2>
-      <address class="not-italic" style="font-size: var(--text-lg); line-height: 1.6;">
-        <strong style="font-family: var(--font-family-display);">New Mexico Museum of Art</strong><br />
-        107 W Palace Ave<br />
-        Santa Fe, NM 87501
-      </address>
     </section>
 
     <div class="diamond-rule my-12">
@@ -55,24 +45,17 @@ import RsvpModal from '../components/RsvpModal.astro'
 
     <!-- ─── RSVP ───────────────────────────────────────────────────────── -->
     <section class="mb-12">
-      <h2 class="type-label-lg mb-3" style="color: var(--c-terracotta);">RSVP</h2>
       <p class="mb-6" style="font-size: var(--text-lg);">
         Please let us know if you can make it by <strong>June 11, 2026</strong>.
       </p>
       <button data-rsvp-open class="info-button info-button--primary cursor-pointer">
         RSVP Here →
       </button>
-      <p class="mt-4" style="font-size: var(--text-base); color: color-mix(in srgb, var(--c-ink) 70%, transparent);">
-        Trouble with the form? Just email us at
-        <a href="mailto:owenkobasz@gmail.com" class="info-link">owenkobasz@gmail.com</a>
-        and we'll take care of it.
-      </p>
     </section>
 
     <!-- ─── Registry ───────────────────────────────────────────────────── -->
     <section class="mb-12">
-      <h2 class="type-label-lg mb-6" style="color: var(--c-terracotta);">Registry</h2>
-      <a href="/registry" class="info-button">
+      <a href="/registry" class="info-button info-button--registry">
         View the Registry →
       </a>
     </section>
@@ -80,6 +63,11 @@ import RsvpModal from '../components/RsvpModal.astro'
     <div class="diamond-rule my-12">
       <span aria-hidden="true">◆</span>
     </div>
+
+    <p class="mb-6" style="font-size: var(--text-lg);">
+      Questions, or trouble with the form? Just email us at
+      <a href="mailto:owenkobasz@gmail.com" class="info-link">owenkobasz@gmail.com</a>.
+    </p>
 
     <p style="font-size: var(--text-lg);">
       Looking for hotels, directions, or what to wear?
@@ -127,6 +115,9 @@ import RsvpModal from '../components/RsvpModal.astro'
   }
 
   .info-button--primary {
+    display: block;
+    width: 100%;
+    text-align: center;
     background: var(--c-terracotta);
     color: var(--c-base);
   }
@@ -135,6 +126,22 @@ import RsvpModal from '../components/RsvpModal.astro'
   .info-button--primary:focus-visible {
     background: var(--c-sienna);
     border-color: var(--c-sienna);
+    color: var(--c-base);
+  }
+
+  .info-button--registry {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--c-sage);
+    border-color: var(--c-sage);
+    color: var(--c-base);
+  }
+
+  .info-button--registry:hover,
+  .info-button--registry:focus-visible {
+    background: color-mix(in srgb, var(--c-sage) 80%, var(--c-ink));
+    border-color: color-mix(in srgb, var(--c-sage) 80%, var(--c-ink));
     color: var(--c-base);
   }
 
