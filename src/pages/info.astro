@@ -1,0 +1,146 @@
+---
+import Base from '../layouts/Base.astro'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import Footer from '../components/Footer.astro'
+import RsvpModal from '../components/RsvpModal.astro'
+---
+<Base title="Info — Owen & Rowan" description="Everything you need to know, all in one place.">
+  <Breadcrumb />
+
+  <!--
+    Single-page essentials for guests who just want the facts.
+    Intentionally no data-reveal animations and larger type throughout —
+    everything readable immediately, no scrolling tricks.
+  -->
+  <article class="px-6 max-w-2xl mx-auto pb-24 info-page">
+
+    <h1 class="type-display mb-12" style="font-size: clamp(3rem, 8vw, 5.5rem);">
+      Owen &amp; Rowan
+    </h1>
+
+    <img
+      src="/images/main.JPG"
+      alt="Owen and Rowan"
+      width="550"
+      height="550"
+      class="w-full h-auto mb-12"
+      style="filter: grayscale(100%); opacity: 0.9; mix-blend-mode: multiply;"
+    />
+
+    <!-- ─── When ───────────────────────────────────────────────────────── -->
+    <section class="mb-12">
+      <h2 class="type-label-lg mb-3" style="color: var(--c-terracotta);">When</h2>
+      <p style="font-size: var(--text-xl); font-family: var(--font-family-display); font-weight: 700;">
+        Saturday, July 11, 2026
+      </p>
+      <p style="font-size: var(--text-lg);">
+        Doors open at 5:00 pm<br />
+        Ceremony begins at 5:30 pm
+      </p>
+    </section>
+
+    <!-- ─── Where ──────────────────────────────────────────────────────── -->
+    <section class="mb-12">
+      <h2 class="type-label-lg mb-3" style="color: var(--c-terracotta);">Where</h2>
+      <address class="not-italic" style="font-size: var(--text-lg); line-height: 1.6;">
+        <strong style="font-family: var(--font-family-display);">New Mexico Museum of Art</strong><br />
+        107 W Palace Ave<br />
+        Santa Fe, NM 87501
+      </address>
+    </section>
+
+    <div class="diamond-rule my-12">
+      <span aria-hidden="true">◆</span>
+    </div>
+
+    <!-- ─── RSVP ───────────────────────────────────────────────────────── -->
+    <section class="mb-12">
+      <h2 class="type-label-lg mb-3" style="color: var(--c-terracotta);">RSVP</h2>
+      <p class="mb-6" style="font-size: var(--text-lg);">
+        Please let us know if you can make it by <strong>June 11, 2026</strong>.
+      </p>
+      <button data-rsvp-open class="info-button info-button--primary cursor-pointer">
+        RSVP Here →
+      </button>
+      <p class="mt-4" style="font-size: var(--text-base); color: color-mix(in srgb, var(--c-ink) 70%, transparent);">
+        Trouble with the form? Just email us at
+        <a href="mailto:owenkobasz@gmail.com" class="info-link">owenkobasz@gmail.com</a>
+        and we'll take care of it.
+      </p>
+    </section>
+
+    <!-- ─── Registry ───────────────────────────────────────────────────── -->
+    <section class="mb-12">
+      <h2 class="type-label-lg mb-6" style="color: var(--c-terracotta);">Registry</h2>
+      <a href="/registry" class="info-button">
+        View the Registry →
+      </a>
+    </section>
+
+    <div class="diamond-rule my-12">
+      <span aria-hidden="true">◆</span>
+    </div>
+
+    <p style="font-size: var(--text-lg);">
+      Looking for hotels, directions, or what to wear?
+      The <a href="/" class="info-link">main site</a> has all the details.
+      We can't wait to see you in Santa Fe.
+    </p>
+
+  </article>
+
+  <RsvpModal />
+
+  <Footer />
+</Base>
+
+<style>
+  /* Bump the whole type scale on this page — everything inside inherits
+     these larger values, including the inline var(--text-*) styles */
+  .info-page {
+    --text-sm:   clamp(1.15rem, 2.4vw, 1.3rem);
+    --text-base: clamp(1.4rem,  3vw,   1.6rem);
+    --text-lg:   clamp(1.6rem,  3.5vw, 1.9rem);
+    --text-xl:   clamp(2rem,    4.5vw, 2.6rem);
+    font-size: var(--text-base);
+    line-height: 1.6;
+  }
+
+  .info-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border: 1.5px solid var(--c-terracotta);
+    color: var(--c-terracotta);
+    font-family: var(--font-family-body);
+    font-variant: small-caps;
+    text-transform: lowercase;
+    letter-spacing: 0.14em;
+    font-size: var(--text-base);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .info-button:hover,
+  .info-button:focus-visible {
+    background: var(--c-terracotta);
+    color: var(--c-base);
+  }
+
+  .info-button--primary {
+    background: var(--c-terracotta);
+    color: var(--c-base);
+  }
+
+  .info-button--primary:hover,
+  .info-button--primary:focus-visible {
+    background: var(--c-sienna);
+    border-color: var(--c-sienna);
+    color: var(--c-base);
+  }
+
+  .info-link {
+    color: var(--c-terracotta);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
