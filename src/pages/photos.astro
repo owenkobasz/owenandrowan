@@ -40,14 +40,15 @@ const WEDIBOX_PAGE = 'https://www.wedibox.com/w/photo-collection/recRM0jgRdqZkaT
       </p>
     </div>
 
-    <!-- z-index above the body::after grain overlay (9999) so the uploader renders crisp -->
-    <section class="mb-8 relative" style="z-index: 10000;" data-reveal>
+    <section class="mb-8 relative" data-reveal>
+      <!-- Wedibox's internal background is lighter than the site base; the filter
+           pulls it down to match so the grain overlay reads the same on both. -->
       <iframe
+        class="wedibox-frame"
         src={WEDIBOX_EMBED}
         title="Upload your photos"
         allow="camera; microphone"
         loading="eager"
-        style="width: 100%; height: min(80vh, 900px); min-height: 560px; border: 1px solid color-mix(in srgb, var(--c-ink) 15%, transparent); background: #F2EBD9;"
       ></iframe>
       <p class="type-label mt-4 text-center">
         <a href={WEDIBOX_PAGE} class="link-draw" target="_blank" rel="noopener noreferrer">
@@ -64,3 +65,14 @@ const WEDIBOX_PAGE = 'https://www.wedibox.com/w/photo-collection/recRM0jgRdqZkaT
 
   <Footer />
 </Base>
+
+<style>
+  .wedibox-frame {
+    width: 100%;
+    height: min(80vh, 900px);
+    min-height: 560px;
+    border: 1px solid color-mix(in srgb, var(--c-ink) 15%, transparent);
+    background: var(--c-base);
+    filter: brightness(0.95) sepia(0.12);
+  }
+</style>
