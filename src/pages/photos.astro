@@ -7,7 +7,9 @@ import Breadcrumb from '../components/Breadcrumb.astro'
 import Footer from '../components/Footer.astro'
 import Stamp from '../components/Stamp.astro'
 
-const WEDIBOX_EMBED = 'https://embed.wedibox.com/e/fec3f200-2376-41fc-b0d2-3265d144159d'
+// Note: the iframe snippet in the Wedibox dashboard points at embed.wedibox.com,
+// which 403s — their own widget.js actually loads www.wedibox.com/w/e/<event-id>.
+const WEDIBOX_EMBED = 'https://www.wedibox.com/w/e/fec3f200-2376-41fc-b0d2-3265d144159d'
 const WEDIBOX_PAGE = 'https://www.wedibox.com/w/photo-collection/recRM0jgRdqZkaTN'
 ---
 <Base title="Photos — Owen & Rowan" description="You are the photographers. Send us everything.">
