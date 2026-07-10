@@ -5,14 +5,13 @@
 import Base from '../layouts/Base.astro'
 import Breadcrumb from '../components/Breadcrumb.astro'
 import Footer from '../components/Footer.astro'
-import Stamp from '../components/Stamp.astro'
 
 // Note: the iframe snippet in the Wedibox dashboard points at embed.wedibox.com,
 // which 403s — their own widget.js actually loads www.wedibox.com/w/e/<event-id>.
 const WEDIBOX_EMBED = 'https://www.wedibox.com/w/e/fec3f200-2376-41fc-b0d2-3265d144159d'
 const WEDIBOX_PAGE = 'https://www.wedibox.com/w/photo-collection/recRM0jgRdqZkaTN'
 ---
-<Base title="Photos — Owen & Rowan" description="You are the photographers. Send us everything.">
+<Base title="Photos — Owen & Rowan" description="Send us your photos and videos — no app, no account.">
   <Breadcrumb />
 
   <article class="px-6 max-w-3xl mx-auto pb-24 relative overflow-hidden">
@@ -28,28 +27,19 @@ const WEDIBOX_PAGE = 'https://www.wedibox.com/w/photo-collection/recRM0jgRdqZkaT
     />
 
     <p class="type-label mb-6 relative" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);" data-reveal>
-      The Museum of Owen &amp; Rowan — Now Acquiring
+      July 11, 2026 — Santa Fe
     </p>
 
     <h1 class="type-display mb-8 relative" style="font-size: clamp(2.5rem, 6vw, 4.5rem);" data-reveal>
-      You are the photographers.
+      Send us your photos
     </h1>
 
-    <div class="flex items-start gap-8 mb-12 relative" data-reveal>
-      <div class="prose-wedding flex-1">
-        <p>
-          We hired exactly one photographer, and there are about a hundred of you.
-          Whatever you catch tonight — blurry, unflattering, mid-bite, all of it —
-          we want every single frame. Videos too.
-        </p>
-        <p>
-          No app, no account. Upload whenever you have signal —
-          tomorrow morning from the hotel absolutely counts.
-        </p>
-      </div>
-      <div class="hidden sm:block flex-shrink-0 pt-2">
-        <Stamp text="Acquired" subtext="Est. 2026" variant="circle" color="sage" />
-      </div>
+    <div class="prose-wedding mb-12 relative" data-reveal>
+      <p>
+        We want everything — photos, videos, the bad ones too.
+        No app, no account; uploads take a minute.
+        Tonight or next week, whenever you have signal.
+      </p>
     </div>
 
     <section class="mb-8 relative" data-reveal>
@@ -68,7 +58,7 @@ const WEDIBOX_PAGE = 'https://www.wedibox.com/w/photo-collection/recRM0jgRdqZkaT
     </section>
 
     <p class="prose-wedding relative" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);" data-reveal>
-      Every photo goes into the permanent collection. More on that soon.
+      We'll share the full album with everyone after the wedding.
     </p>
 
   </article>
