@@ -1,0 +1,539 @@
+---
+export const prerender = false
+
+import Base from '../layouts/Base.astro'
+import { COOKIE_NAME, isAdmitted, fetchSlots } from '../lib/dj'
+
+const admitted = isAdmitted(Astro.cookies.get(COOKIE_NAME)?.value)
+const slots = admitted ? await fetchSlots() : []
+---
+<Base title="The Turntable" description="One DJ at a time. The courtyard is listening.">
+  {!admitted ? (
+    <div class="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+      <div class="tt-vinyl tt-vinyl--lg mb-12" aria-hidden="true"></div>
+
+      <p class="type-label mb-4" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">
+        the aux cord is behind this door
+      </p>
+      <h1 class="type-display mb-10" style="font-size: var(--text-2xl);">
+        What's the password?
+      </h1>
+
+      <form id="tt-gate" class="w-full max-w-xs">
+        <input
+          id="tt-password"
+          type="text"
+          autocomplete="off"
+          autocapitalize="none"
+          aria-label="Password"
+          class="w-full bg-transparent px-0 py-2 text-center"
+          style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink); font-size: var(--text-lg);"
+          onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
+          onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
+        />
+        <button
+          type="submit"
+          class="type-label mt-8 px-8 py-3 cursor-pointer transition-colors"
+          style="border: 1px solid var(--c-terracotta); color: var(--c-terracotta);"
+          onmouseenter="this.style.background='var(--c-terracotta)'; this.style.color='var(--c-base)'"
+          onmouseleave="this.style.background='transparent'; this.style.color='var(--c-terracotta)'"
+        >
+          Knock
+        </button>
+      </form>
+
+      <p id="tt-quip" class="type-label mt-8 min-h-6" style="color: var(--c-terracotta);"></p>
+
+      <div
+        id="tt-admit-stamp"
+        class="stamp stamp--rect stamp--terracotta mt-4"
+        style="--rotate: -3deg; opacity: 0; transform: rotate(-3deg) scale(1.4); transition: opacity 0.2s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);"
+      >
+        <span class="stamp__text">Admitted</span>
+        <span class="stamp__sub">one night only</span>
+      </div>
+    </div>
+  ) : (
+    <Fragment>
+    <div class="max-w-2xl mx-auto px-6 py-16 md:py-24">
+      <header class="text-center mb-14">
+        <p class="type-label mb-4" style="color: var(--c-ochre);">
+          side b · the reception · saturday, july 11
+        </p>
+        <h1 class="type-display" style="font-size: var(--text-hero); line-height: 0.9;">
+          The<br />Turntable
+        </h1>
+        <p class="type-label-lg mt-6" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
+          one dj at a time · play what you love · the courtyard is listening
+        </p>
+      </header>
+
+      <div class="prose-wedding mx-auto text-center mb-14" style="max-width: 42ch;">
+        <p style="color: color-mix(in srgb, var(--c-ink) 75%, transparent);">
+          From eight to eleven, the aux cord belongs to you. Claim a set,
+          bring the songs you actually love, and play them for a courtyard
+          with nowhere better to be. No skips. No shame.
+        </p>
+      </div>
+
+      <div class="diamond-rule mb-10"><span class="type-label">◆</span></div>
+
+      <ol id="tt-lineup" aria-label="The lineup"></ol>
+
+      <p id="tt-full-note" class="type-label text-center mt-10 hidden" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">
+        The bill is full. Bribery at the sound table is not technically forbidden.
+      </p>
+
+      <footer class="text-center mt-20 space-y-6">
+        <p class="type-label" style="color: color-mix(in srgb, var(--c-ink) 45%, transparent);">
+          times are a plan, not a promise — the night decides
+        </p>
+        <p class="type-label" style="color: color-mix(in srgb, var(--c-ink) 35%, transparent);">
+          in loving memory of turntable.fm · 2011–2013
+        </p>
+        <a href="/" class="type-label link-draw inline-block" style="color: var(--c-terracotta);">← Back</a>
+      </footer>
+    </div>
+
+    <dialog id="tt-dialog" aria-label="Claim a set">
+      <div class="p-8">
+        <div class="flex justify-between items-start mb-8">
+          <h2 style="font-family: var(--font-family-body); font-size: var(--text-xl);">Step up to the decks</h2>
+          <button
+            id="tt-close"
+            aria-label="Close"
+            class="type-label cursor-pointer"
+            style="color: color-mix(in srgb, var(--c-ink) 40%, transparent);"
+            onmouseenter="this.style.color='var(--c-ink)'"
+            onmouseleave="this.style.color='color-mix(in srgb, var(--c-ink) 40%, transparent)'"
+          >✕</button>
+        </div>
+
+        <form id="tt-claim" class="space-y-8">
+          <label class="block">
+            <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">dj name</span>
+            <input
+              name="name"
+              required
+              maxlength="60"
+              class="w-full bg-transparent px-0 py-2"
+              style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
+              onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
+              onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
+            />
+          </label>
+
+          <fieldset class="border-0 p-0 m-0">
+            <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">your set starts</legend>
+            <div id="tt-starts" class="flex flex-wrap gap-2"></div>
+          </fieldset>
+
+          <fieldset class="border-0 p-0 m-0">
+            <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">and runs for</legend>
+            <div id="tt-lengths" class="flex flex-wrap gap-2"></div>
+          </fieldset>
+
+          <label class="block">
+            <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">what are you spinning?</span>
+            <input
+              name="vibe"
+              maxlength="100"
+              placeholder="deep cuts, yacht rock, apologies in advance…"
+              class="w-full bg-transparent px-0 py-2"
+              style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
+              onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
+              onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
+            />
+          </label>
+
+          <button
+            type="submit"
+            class="type-label px-8 py-3 cursor-pointer transition-colors"
+            style="border: 1px solid var(--c-terracotta); color: var(--c-terracotta);"
+            onmouseenter="this.style.background='var(--c-terracotta)'; this.style.color='var(--c-base)'"
+            onmouseleave="this.style.background='transparent'; this.style.color='var(--c-terracotta)'"
+          >
+            Press it
+          </button>
+
+          <p id="tt-claim-error" class="type-label hidden" style="color: var(--c-terracotta);"></p>
+        </form>
+      </div>
+    </dialog>
+
+    <script is:inline type="application/json" id="tt-slots-data" set:html={JSON.stringify(slots).replace(/</g, '\\u003c')} />
+    </Fragment>
+  )}
+</Base>
+
+<style is:global>
+  /* ─── turntable.fm page ─────────────────────────────────────────────── */
+  .tt-vinyl {
+    width: 3rem;
+    height: 3rem;
+    flex: none;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, var(--c-terracotta) 0 18%, transparent 18% 22%, currentColor 22% 24%, transparent 24% 34%, currentColor 34% 36%, transparent 36% 46%, currentColor 46% 48%, transparent 48%),
+      radial-gradient(circle, var(--c-ink) 0 100%);
+    color: color-mix(in srgb, var(--c-base) 40%, transparent);
+    animation: tt-spin 4s linear infinite;
+  }
+
+  .tt-vinyl--lg {
+    width: 5rem;
+    height: 5rem;
+    animation-duration: 8s;
+  }
+
+  @keyframes tt-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tt-vinyl { animation: none; }
+  }
+
+  #tt-lineup { list-style: none; margin: 0; padding: 0; }
+
+  .tt-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tt-row__time {
+    font-family: var(--font-family-body);
+    font-variant: small-caps;
+    letter-spacing: 0.14em;
+    font-size: var(--text-xs);
+    color: var(--c-ochre);
+    min-width: 6.5rem;
+    text-align: right;
+    flex: none;
+  }
+
+  .tt-row--set {
+    background: color-mix(in srgb, var(--wash, var(--c-sage)) 14%, transparent);
+    border-left: 3px solid color-mix(in srgb, var(--wash, var(--c-sage)) 60%, transparent);
+  }
+
+  .tt-row--set .tt-row__name {
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    line-height: 1.1;
+  }
+
+  .tt-row--set .tt-row__vibe {
+    font-style: italic;
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, var(--c-ink) 65%, transparent);
+    margin-top: 0.25rem;
+  }
+
+  .tt-row__now {
+    display: block;
+    font-style: normal;
+    font-variant: small-caps;
+    letter-spacing: 0.18em;
+    font-size: var(--text-xs);
+    color: var(--c-terracotta);
+    margin-top: 0.4rem;
+  }
+
+  .tt-row--open {
+    border: 1px dashed color-mix(in srgb, var(--c-ink) 30%, transparent);
+    cursor: pointer;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .tt-row--open:hover,
+  .tt-row--open:focus-visible {
+    border-color: var(--c-terracotta);
+    background: color-mix(in srgb, var(--c-terracotta) 5%, transparent);
+  }
+
+  .tt-row--open .tt-row__label {
+    font-variant: small-caps;
+    letter-spacing: 0.16em;
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, var(--c-ink) 55%, transparent);
+  }
+
+  .tt-row--open .tt-row__claim {
+    margin-left: auto;
+    font-variant: small-caps;
+    letter-spacing: 0.16em;
+    font-size: var(--text-xs);
+    color: var(--c-terracotta);
+    flex: none;
+  }
+
+  .tt-pill {
+    font-family: var(--font-family-body);
+    font-variant: small-caps;
+    letter-spacing: 0.12em;
+    font-size: var(--text-sm);
+    padding: 0.5rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent);
+    background: transparent;
+    color: var(--c-ink);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .tt-pill.is-on {
+    border-color: var(--c-terracotta);
+    background: var(--c-terracotta);
+    color: var(--c-base);
+  }
+</style>
+
+<script>
+  import confetti from 'canvas-confetti'
+
+  const NIGHT_MINUTES = 180
+  const TICK = 15
+  const SET_LENGTHS = [15, 30, 45, 60]
+  const NIGHT_START_EPOCH = Date.parse('2026-07-11T20:00:00-06:00')
+  const WASHES = ['var(--c-sage)', 'var(--c-sky)', 'var(--c-ochre)', 'var(--c-terracotta)']
+
+  interface Slot { name: string; start: number; minutes: number; vibe: string }
+
+  function fmt(min: number): string {
+    const h = 8 + Math.floor(min / 60)
+    const m = min % 60
+    return `${h}:${String(m).padStart(2, '0')}`
+  }
+
+  function fmtRange(start: number, minutes: number): string {
+    return `${fmt(start)} – ${fmt(start + minutes)}`
+  }
+
+  /* ─── Gate ──────────────────────────────────────────────────────────── */
+  function wireGate() {
+    const gate = document.getElementById('tt-gate') as HTMLFormElement | null
+    if (!gate) return
+
+    const input = document.getElementById('tt-password') as HTMLInputElement
+    const quip = document.getElementById('tt-quip')!
+    const stamp = document.getElementById('tt-admit-stamp')!
+    const quips = [
+      'Colder.',
+      'Nope. Think bigger.',
+      'Ask around — someone at your table knows.',
+      'It’s two words.',
+    ]
+    let misses = 0
+
+    gate.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const attempt = input.value.trim()
+      if (!attempt) return
+
+      const res = await fetch('/api/dj/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: attempt }),
+      }).catch(() => null)
+
+      if (res?.ok) {
+        quip.textContent = ''
+        stamp.style.opacity = '1'
+        stamp.style.transform = 'rotate(-3deg) scale(1)'
+        setTimeout(() => location.reload(), 1100)
+      } else if (attempt.toLowerCase().includes('esme')) {
+        quip.textContent = 'We told you she wasn’t the password.'
+      } else {
+        quip.textContent = quips[Math.min(misses, quips.length - 1)]
+        misses++
+        input.select()
+      }
+    })
+  }
+
+  /* ─── Bill ──────────────────────────────────────────────────────────── */
+  function wireBill() {
+    const lineup = document.getElementById('tt-lineup')
+    const dataEl = document.getElementById('tt-slots-data')
+    if (!lineup || !dataEl) return
+
+    let slots: Slot[] = JSON.parse(dataEl.textContent || '[]')
+    const dialog = document.getElementById('tt-dialog') as HTMLDialogElement
+    const claimForm = document.getElementById('tt-claim') as HTMLFormElement
+    const startsWrap = document.getElementById('tt-starts')!
+    const lengthsWrap = document.getElementById('tt-lengths')!
+    const claimError = document.getElementById('tt-claim-error')!
+    const fullNote = document.getElementById('tt-full-note')!
+    let gap = { start: 0, end: NIGHT_MINUTES }
+    let chosenStart = 0
+    let chosenLength = 0
+
+    function render() {
+      lineup!.innerHTML = ''
+      const now = (Date.now() - NIGHT_START_EPOCH) / 60000
+      let cursor = 0
+      let washIdx = 0
+      let hasGap = false
+
+      const rows: HTMLElement[] = []
+
+      function openRow(start: number, end: number) {
+        hasGap = true
+        const li = document.createElement('li')
+        const btn = document.createElement('button')
+        btn.type = 'button'
+        btn.className = 'tt-row tt-row--open'
+        btn.innerHTML = `
+          <span class="tt-row__time">${fmtRange(start, end - start)}</span>
+          <span class="tt-row__label">open · ${end - start} min</span>
+          <span class="tt-row__claim">claim this →</span>`
+        btn.addEventListener('click', () => openClaim(start, end))
+        li.appendChild(btn)
+        rows.push(li)
+      }
+
+      for (const s of slots) {
+        if (s.start > cursor) openRow(cursor, s.start)
+        const li = document.createElement('li')
+        li.className = 'tt-row tt-row--set'
+        li.style.setProperty('--wash', WASHES[washIdx++ % WASHES.length])
+        const onNow = now >= s.start && now < s.start + s.minutes
+        li.innerHTML = `
+          <span class="tt-row__time">${fmtRange(s.start, s.minutes)}</span>
+          <div style="min-width: 0;">
+            <div class="tt-row__name"></div>
+            <div class="tt-row__vibe"></div>
+            ${onNow ? '<span class="tt-row__now">on the decks right now</span>' : ''}
+          </div>
+          <div class="tt-vinyl" style="margin-left: auto;" aria-hidden="true"></div>`
+        li.querySelector('.tt-row__name')!.textContent = s.name
+        const vibeEl = li.querySelector('.tt-row__vibe') as HTMLElement
+        if (s.vibe) vibeEl.textContent = s.vibe
+        else vibeEl.remove()
+        rows.push(li)
+        cursor = Math.max(cursor, s.start + s.minutes)
+      }
+      if (cursor < NIGHT_MINUTES) openRow(cursor, NIGHT_MINUTES)
+
+      rows.forEach((r) => lineup!.appendChild(r))
+      fullNote!.classList.toggle('hidden', hasGap)
+    }
+
+    function pill(label: string, onPick: (btn: HTMLButtonElement) => void): HTMLButtonElement {
+      const b = document.createElement('button')
+      b.type = 'button'
+      b.className = 'tt-pill'
+      b.textContent = label
+      b.addEventListener('click', () => onPick(b))
+      return b
+    }
+
+    function renderLengths() {
+      lengthsWrap.innerHTML = ''
+      const fits = SET_LENGTHS.filter((len) => chosenStart + len <= gap.end)
+      if (!fits.includes(chosenLength)) chosenLength = fits[0]
+      for (const len of fits) {
+        const b = pill(len === 60 ? '1 hr' : `${len} min`, (btn) => {
+          chosenLength = len
+          lengthsWrap.querySelectorAll('.tt-pill').forEach((p) => p.classList.remove('is-on'))
+          btn.classList.add('is-on')
+        })
+        if (len === chosenLength) b.classList.add('is-on')
+        lengthsWrap.appendChild(b)
+      }
+    }
+
+    function openClaim(start: number, end: number) {
+      gap = { start, end }
+      chosenStart = start
+      chosenLength = 0
+      claimError.classList.add('hidden')
+      claimForm.reset()
+
+      startsWrap.innerHTML = ''
+      for (let t = start; t + TICK <= end; t += TICK) {
+        const b = pill(fmt(t), (btn) => {
+          chosenStart = t
+          startsWrap.querySelectorAll('.tt-pill').forEach((p) => p.classList.remove('is-on'))
+          btn.classList.add('is-on')
+          renderLengths()
+        })
+        if (t === start) b.classList.add('is-on')
+        startsWrap.appendChild(b)
+      }
+      renderLengths()
+      dialog.showModal()
+    }
+
+    claimForm.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const submitBtn = claimForm.querySelector('button[type="submit"]') as HTMLButtonElement
+      submitBtn.disabled = true
+      claimError.classList.add('hidden')
+
+      const fd = new FormData(claimForm)
+      const res = await fetch('/api/dj/slots', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: fd.get('name'),
+          vibe: fd.get('vibe'),
+          start: chosenStart,
+          minutes: chosenLength,
+        }),
+      }).catch(() => null)
+
+      submitBtn.disabled = false
+      const body = res ? await res.json().catch(() => null) : null
+
+      if (res?.ok && body?.slots) {
+        slots = body.slots
+        render()
+        dialog.close()
+        confetti({
+          particleCount: 90,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#B85C38', '#7A8C6A', '#C49A3C', '#A8C0CC'],
+        })
+      } else {
+        if (body?.slots) { slots = body.slots; render() }
+        claimError.textContent = body?.error ?? 'Something went wrong. Try again, or heckle the sound table.'
+        claimError.classList.remove('hidden')
+      }
+    })
+
+    document.getElementById('tt-close')?.addEventListener('click', () => dialog.close())
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close() })
+
+    // Gentle polling — covers two cousins on the patio at the same time.
+    // Cleared on re-init so ClientRouter navigations don't stack intervals.
+    if ((window as any).__ttPoll) clearInterval((window as any).__ttPoll)
+    ;(window as any).__ttPoll = setInterval(async () => {
+      if (dialog.open || document.hidden) return
+      const res = await fetch('/api/dj/slots').catch(() => null)
+      if (!res?.ok) return
+      const body = await res.json().catch(() => null)
+      if (body?.slots && JSON.stringify(body.slots) !== JSON.stringify(slots)) {
+        slots = body.slots
+        render()
+      }
+    }, 30000)
+
+    render()
+  }
+
+  function init() {
+    wireGate()
+    wireBill()
+  }
+
+  document.addEventListener('astro:page-load', init)
+</script>
