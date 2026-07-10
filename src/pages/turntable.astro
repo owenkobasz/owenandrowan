@@ -55,7 +55,7 @@ const slots = admitted ? await fetchSlots() : []
     </div>
   ) : (
     <Fragment>
-    <div class="max-w-2xl mx-auto px-6 py-16 md:py-24">
+    <div class="max-w-5xl mx-auto px-6 py-16 md:py-24">
       <header class="text-center mb-14">
         <p class="type-label mb-4" style="color: var(--c-ochre);">
           side b · the reception · saturday, july 11
@@ -78,11 +78,74 @@ const slots = admitted ? await fetchSlots() : []
 
       <div class="diamond-rule mb-10"><span class="type-label">◆</span></div>
 
-      <ol id="tt-lineup" aria-label="The lineup"></ol>
+      <div class="grid md:grid-cols-[5fr_4fr] gap-10 md:gap-14 items-start">
+        <section aria-label="The lineup">
+          <h2 class="type-label mb-5" style="color: var(--c-ochre);">the lineup</h2>
+          <ol id="tt-lineup"></ol>
+          <p id="tt-full-note" class="type-label mt-6 hidden" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">
+            The bill is full. Bribery at the sound table is not technically forbidden.
+          </p>
+        </section>
 
-      <p id="tt-full-note" class="type-label text-center mt-10 hidden" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">
-        The bill is full. Bribery at the sound table is not technically forbidden.
-      </p>
+        <aside class="md:sticky md:top-10">
+          <h2 class="type-label mb-5" style="color: var(--c-ochre);">step up to the decks</h2>
+          <div id="tt-claim-card" class="tt-card">
+            <form id="tt-claim" class="space-y-7">
+              <label class="block">
+                <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">dj name</span>
+                <input
+                  name="name"
+                  required
+                  maxlength="60"
+                  class="w-full bg-transparent px-0 py-2"
+                  style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
+                  onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
+                  onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
+                />
+              </label>
+
+              <fieldset class="border-0 p-0 m-0">
+                <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">your set starts</legend>
+                <div id="tt-starts" class="flex flex-wrap gap-2"></div>
+              </fieldset>
+
+              <fieldset class="border-0 p-0 m-0">
+                <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">and spins until</legend>
+                <div id="tt-ends" class="flex flex-wrap gap-2"></div>
+              </fieldset>
+
+              <label class="block">
+                <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">what are you spinning?</span>
+                <input
+                  name="vibe"
+                  maxlength="100"
+                  placeholder="deep cuts, yacht rock, apologies in advance…"
+                  class="w-full bg-transparent px-0 py-2"
+                  style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
+                  onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
+                  onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
+                />
+              </label>
+
+              <button
+                type="submit"
+                class="type-label px-8 py-3 cursor-pointer transition-colors"
+                style="border: 1px solid var(--c-terracotta); color: var(--c-terracotta);"
+                onmouseenter="this.style.background='var(--c-terracotta)'; this.style.color='var(--c-base)'"
+                onmouseleave="this.style.background='transparent'; this.style.color='var(--c-terracotta)'"
+              >
+                Press it
+              </button>
+
+              <p id="tt-claim-error" class="type-label hidden" style="color: var(--c-terracotta);"></p>
+            </form>
+
+            <p id="tt-claim-full" class="type-label hidden" style="color: color-mix(in srgb, var(--c-ink) 55%, transparent);">
+              Every minute is spoken for. Befriend a DJ.
+            </p>
+          </div>
+        </aside>
+      </div>
 
       <footer class="text-center mt-20 space-y-6">
         <p class="type-label" style="color: color-mix(in srgb, var(--c-ink) 45%, transparent);">
@@ -94,72 +157,6 @@ const slots = admitted ? await fetchSlots() : []
         <a href="/" class="type-label link-draw inline-block" style="color: var(--c-terracotta);">← Back</a>
       </footer>
     </div>
-
-    <dialog id="tt-dialog" aria-label="Claim a set">
-      <div class="p-8">
-        <div class="flex justify-between items-start mb-8">
-          <h2 style="font-family: var(--font-family-body); font-size: var(--text-xl);">Step up to the decks</h2>
-          <button
-            id="tt-close"
-            aria-label="Close"
-            class="type-label cursor-pointer"
-            style="color: color-mix(in srgb, var(--c-ink) 40%, transparent);"
-            onmouseenter="this.style.color='var(--c-ink)'"
-            onmouseleave="this.style.color='color-mix(in srgb, var(--c-ink) 40%, transparent)'"
-          >✕</button>
-        </div>
-
-        <form id="tt-claim" class="space-y-8">
-          <label class="block">
-            <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">dj name</span>
-            <input
-              name="name"
-              required
-              maxlength="60"
-              class="w-full bg-transparent px-0 py-2"
-              style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
-              onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
-              onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
-            />
-          </label>
-
-          <fieldset class="border-0 p-0 m-0">
-            <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">your set starts</legend>
-            <div id="tt-starts" class="flex flex-wrap gap-2"></div>
-          </fieldset>
-
-          <fieldset class="border-0 p-0 m-0">
-            <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">and spins until</legend>
-            <div id="tt-ends" class="flex flex-wrap gap-2"></div>
-          </fieldset>
-
-          <label class="block">
-            <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">what are you spinning?</span>
-            <input
-              name="vibe"
-              maxlength="100"
-              placeholder="deep cuts, yacht rock, apologies in advance…"
-              class="w-full bg-transparent px-0 py-2"
-              style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
-              onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
-              onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
-            />
-          </label>
-
-          <button
-            type="submit"
-            class="type-label px-8 py-3 cursor-pointer transition-colors"
-            style="border: 1px solid var(--c-terracotta); color: var(--c-terracotta);"
-            onmouseenter="this.style.background='var(--c-terracotta)'; this.style.color='var(--c-base)'"
-            onmouseleave="this.style.background='transparent'; this.style.color='var(--c-terracotta)'"
-          >
-            Press it
-          </button>
-
-          <p id="tt-claim-error" class="type-label hidden" style="color: var(--c-terracotta);"></p>
-        </form>
-      </div>
-    </dialog>
 
     <script is:inline type="application/json" id="tt-slots-data" set:html={JSON.stringify(slots).replace(/</g, '\\u003c')} />
     </Fragment>
@@ -275,6 +272,12 @@ const slots = admitted ? await fetchSlots() : []
     flex: none;
   }
 
+  .tt-card {
+    background: var(--c-base-warm);
+    border: 1px solid color-mix(in srgb, var(--c-ink) 15%, transparent);
+    padding: 1.75rem;
+  }
+
   .tt-pill {
     font-family: var(--font-family-body);
     font-variant: small-caps;
@@ -364,15 +367,31 @@ const slots = admitted ? await fetchSlots() : []
     if (!lineup || !dataEl) return
 
     let slots: Slot[] = JSON.parse(dataEl.textContent || '[]')
-    const dialog = document.getElementById('tt-dialog') as HTMLDialogElement
     const claimForm = document.getElementById('tt-claim') as HTMLFormElement
+    const claimCard = document.getElementById('tt-claim-card')!
     const startsWrap = document.getElementById('tt-starts')!
     const endsWrap = document.getElementById('tt-ends')!
     const claimError = document.getElementById('tt-claim-error')!
+    const claimFull = document.getElementById('tt-claim-full')!
     const fullNote = document.getElementById('tt-full-note')!
-    let gap = { start: 0, end: NIGHT_MINUTES }
-    let chosenStart = 0
-    let chosenEnd = 0
+    let chosenStart = -1
+    let chosenEnd = -1
+
+    // Open stretches of the night, derived from the claimed slots.
+    function gaps(): { start: number, end: number }[] {
+      const out: { start: number, end: number }[] = []
+      let cursor = 0
+      for (const s of slots) {
+        if (s.start > cursor) out.push({ start: cursor, end: s.start })
+        cursor = Math.max(cursor, s.start + s.minutes)
+      }
+      if (cursor < NIGHT_MINUTES) out.push({ start: cursor, end: NIGHT_MINUTES })
+      return out
+    }
+
+    function gapContaining(start: number) {
+      return gaps().find((g) => start >= g.start && start + TICK <= g.end)
+    }
 
     function render() {
       lineup!.innerHTML = ''
@@ -393,7 +412,12 @@ const slots = admitted ? await fetchSlots() : []
           <span class="tt-row__time">${fmtRange(start, end - start)}</span>
           <span class="tt-row__label">open · ${end - start} min</span>
           <span class="tt-row__claim">claim this →</span>`
-        btn.addEventListener('click', () => openClaim(start, end))
+        btn.addEventListener('click', () => {
+          chosenStart = start
+          chosenEnd = -1
+          renderPickers()
+          claimCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+        })
         li.appendChild(btn)
         rows.push(li)
       }
@@ -423,6 +447,8 @@ const slots = admitted ? await fetchSlots() : []
 
       rows.forEach((r) => lineup!.appendChild(r))
       fullNote!.classList.toggle('hidden', hasGap)
+      claimForm.classList.toggle('hidden', !hasGap)
+      claimFull.classList.toggle('hidden', hasGap)
     }
 
     function pill(label: string, onPick: (btn: HTMLButtonElement) => void): HTMLButtonElement {
@@ -434,43 +460,39 @@ const slots = admitted ? await fetchSlots() : []
       return b
     }
 
-    function renderEnds() {
+    // Start pills span every open stretch; end pills run from 15 minutes
+    // after the chosen start to wherever that stretch closes.
+    function renderPickers() {
+      startsWrap.innerHTML = ''
       endsWrap.innerHTML = ''
-      // Every tick from 15 minutes after the chosen start to the end of the
-      // open stretch — a set can run as long as the gap allows.
+
+      const open = gaps()
+      if (!open.length) return
+
+      if (!gapContaining(chosenStart)) chosenStart = open[0].start
+      const gap = gapContaining(chosenStart)!
       if (chosenEnd <= chosenStart || chosenEnd > gap.end) chosenEnd = chosenStart + TICK
+
+      for (const g of open) {
+        for (let t = g.start; t + TICK <= g.end; t += TICK) {
+          const b = pill(fmt(t), () => {
+            chosenStart = t
+            chosenEnd = -1
+            renderPickers()
+          })
+          if (t === chosenStart) b.classList.add('is-on')
+          startsWrap.appendChild(b)
+        }
+      }
+
       for (let t = chosenStart + TICK; t <= gap.end; t += TICK) {
-        const b = pill(fmt(t), (btn) => {
+        const b = pill(fmt(t), () => {
           chosenEnd = t
-          endsWrap.querySelectorAll('.tt-pill').forEach((p) => p.classList.remove('is-on'))
-          btn.classList.add('is-on')
+          renderPickers()
         })
         if (t === chosenEnd) b.classList.add('is-on')
         endsWrap.appendChild(b)
       }
-    }
-
-    function openClaim(start: number, end: number) {
-      gap = { start, end }
-      chosenStart = start
-      chosenEnd = 0
-      claimError.classList.add('hidden')
-      claimForm.reset()
-
-      startsWrap.innerHTML = ''
-      for (let t = start; t + TICK <= end; t += TICK) {
-        const b = pill(fmt(t), (btn) => {
-          chosenStart = t
-          chosenEnd = 0
-          startsWrap.querySelectorAll('.tt-pill').forEach((p) => p.classList.remove('is-on'))
-          btn.classList.add('is-on')
-          renderEnds()
-        })
-        if (t === start) b.classList.add('is-on')
-        startsWrap.appendChild(b)
-      }
-      renderEnds()
-      dialog.showModal()
     }
 
     claimForm.addEventListener('submit', async (e) => {
@@ -496,8 +518,11 @@ const slots = admitted ? await fetchSlots() : []
 
       if (res?.ok && body?.slots) {
         slots = body.slots
+        claimForm.reset()
+        chosenStart = -1
+        chosenEnd = -1
         render()
-        dialog.close()
+        renderPickers()
         confetti({
           particleCount: 90,
           spread: 70,
@@ -505,30 +530,30 @@ const slots = admitted ? await fetchSlots() : []
           colors: ['#B85C38', '#7A8C6A', '#C49A3C', '#A8C0CC'],
         })
       } else {
-        if (body?.slots) { slots = body.slots; render() }
+        if (body?.slots) { slots = body.slots; render(); renderPickers() }
         claimError.textContent = body?.error ?? 'Something went wrong. Try again, or heckle the sound table.'
         claimError.classList.remove('hidden')
       }
     })
 
-    document.getElementById('tt-close')?.addEventListener('click', () => dialog.close())
-    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close() })
-
     // Gentle polling — covers two cousins on the patio at the same time.
     // Cleared on re-init so ClientRouter navigations don't stack intervals.
+    // renderPickers keeps the current selection when it still fits.
     if ((window as any).__ttPoll) clearInterval((window as any).__ttPoll)
     ;(window as any).__ttPoll = setInterval(async () => {
-      if (dialog.open || document.hidden) return
+      if (document.hidden) return
       const res = await fetch('/api/dj/slots').catch(() => null)
       if (!res?.ok) return
       const body = await res.json().catch(() => null)
       if (body?.slots && JSON.stringify(body.slots) !== JSON.stringify(slots)) {
         slots = body.slots
         render()
+        renderPickers()
       }
     }, 30000)
 
     render()
+    renderPickers()
   }
 
   function init() {
