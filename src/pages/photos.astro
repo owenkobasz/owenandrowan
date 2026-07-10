@@ -31,24 +31,23 @@ const WEDIBOX_PAGE = 'https://www.wedibox.com/w/photo-collection/recRM0jgRdqZkaT
     </p>
 
     <h1 class="type-display mb-8 relative" style="font-size: clamp(2.5rem, 6vw, 4.5rem);" data-reveal>
-      Send us your photos
+      Photo Portal
     </h1>
 
     <div class="prose-wedding mb-12 relative" data-reveal>
       <p>
-        We want everything — photos, videos, the bad ones too.
-        No app, no account; uploads take a minute.
-        Tonight or next week, whenever you have signal.
+        Please share your photos here &lt;3
       </p>
     </div>
 
-    <section class="mb-8 relative" data-reveal>
+    <!-- z-index above the body::after grain overlay (9999) so the uploader renders crisp -->
+    <section class="mb-8 relative" style="z-index: 10000;" data-reveal>
       <iframe
         src={WEDIBOX_EMBED}
         title="Upload your photos"
         allow="camera; microphone"
         loading="eager"
-        style="width: 100%; height: min(80vh, 900px); min-height: 560px; border: 1px solid color-mix(in srgb, var(--c-ink) 15%, transparent); background: var(--c-base);"
+        style="width: 100%; height: min(80vh, 900px); min-height: 560px; border: 1px solid color-mix(in srgb, var(--c-ink) 15%, transparent); background: #F2EBD9;"
       ></iframe>
       <p class="type-label mt-4 text-center">
         <a href={WEDIBOX_PAGE} class="link-draw" target="_blank" rel="noopener noreferrer">
