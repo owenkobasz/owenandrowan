@@ -129,8 +129,8 @@ const slots = admitted ? await fetchSlots() : []
           </fieldset>
 
           <fieldset class="border-0 p-0 m-0">
-            <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">and runs for</legend>
-            <div id="tt-lengths" class="flex flex-wrap gap-2"></div>
+            <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">and spins until</legend>
+            <div id="tt-ends" class="flex flex-wrap gap-2"></div>
           </fieldset>
 
           <label class="block">
@@ -300,7 +300,6 @@ const slots = admitted ? await fetchSlots() : []
 
   const NIGHT_MINUTES = 180
   const TICK = 15
-  const SET_LENGTHS = [15, 30, 45, 60]
   const NIGHT_START_EPOCH = Date.parse('2026-07-11T20:00:00-06:00')
   const WASHES = ['var(--c-sage)', 'var(--c-sky)', 'var(--c-ochre)', 'var(--c-terracotta)']
 
@@ -368,12 +367,12 @@ const slots = admitted ? await fetchSlots() : []
     const dialog = document.getElementById('tt-dialog') as HTMLDialogElement
     const claimForm = document.getElementById('tt-claim') as HTMLFormElement
     const startsWrap = document.getElementById('tt-starts')!
-    const lengthsWrap = document.getElementById('tt-lengths')!
+    const endsWrap = document.getElementById('tt-ends')!
     const claimError = document.getElementById('tt-claim-error')!
     const fullNote = document.getElementById('tt-full-note')!
     let gap = { start: 0, end: NIGHT_MINUTES }
     let chosenStart = 0
-    let chosenLength = 0
+    let chosenEnd = 0
 
     function render() {
       lineup!.innerHTML = ''
@@ -435,25 +434,26 @@ const slots = admitted ? await fetchSlots() : []
       return b
     }
 
-    function renderLengths() {
-      lengthsWrap.innerHTML = ''
-      const fits = SET_LENGTHS.filter((len) => chosenStart + len <= gap.end)
-      if (!fits.includes(chosenLength)) chosenLength = fits[0]
-      for (const len of fits) {
-        const b = pill(len === 60 ? '1 hr' : `${len} min`, (btn) => {
-          chosenLength = len
-          lengthsWrap.querySelectorAll('.tt-pill').forEach((p) => p.classList.remove('is-on'))
+    function renderEnds() {
+      endsWrap.innerHTML = ''
+      // Every tick from 15 minutes after the chosen start to the end of the
+      // open stretch — a set can run as long as the gap allows.
+      if (chosenEnd <= chosenStart || chosenEnd > gap.end) chosenEnd = chosenStart + TICK
+      for (let t = chosenStart + TICK; t <= gap.end; t += TICK) {
+        const b = pill(fmt(t), (btn) => {
+          chosenEnd = t
+          endsWrap.querySelectorAll('.tt-pill').forEach((p) => p.classList.remove('is-on'))
           btn.classList.add('is-on')
         })
-        if (len === chosenLength) b.classList.add('is-on')
-        lengthsWrap.appendChild(b)
+        if (t === chosenEnd) b.classList.add('is-on')
+        endsWrap.appendChild(b)
       }
     }
 
     function openClaim(start: number, end: number) {
       gap = { start, end }
       chosenStart = start
-      chosenLength = 0
+      chosenEnd = 0
       claimError.classList.add('hidden')
       claimForm.reset()
 
@@ -461,14 +461,15 @@ const slots = admitted ? await fetchSlots() : []
       for (let t = start; t + TICK <= end; t += TICK) {
         const b = pill(fmt(t), (btn) => {
           chosenStart = t
+          chosenEnd = 0
           startsWrap.querySelectorAll('.tt-pill').forEach((p) => p.classList.remove('is-on'))
           btn.classList.add('is-on')
-          renderLengths()
+          renderEnds()
         })
         if (t === start) b.classList.add('is-on')
         startsWrap.appendChild(b)
       }
-      renderLengths()
+      renderEnds()
       dialog.showModal()
     }
 
@@ -486,7 +487,7 @@ const slots = admitted ? await fetchSlots() : []
           name: fd.get('name'),
           vibe: fd.get('vibe'),
           start: chosenStart,
-          minutes: chosenLength,
+          minutes: chosenEnd - chosenStart,
         }),
       }).catch(() => null)
 

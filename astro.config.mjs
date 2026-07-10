@@ -5,6 +5,9 @@ import vercel from '@astrojs/vercel'
 
 export default defineConfig({
   site: 'https://owenrowan.love',
+  redirects: {
+    '/turntabledotfm': '/turntable',
+  },
   adapter: vercel({
     webAnalytics: { enabled: true },
   }),

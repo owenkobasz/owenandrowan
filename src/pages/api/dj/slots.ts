@@ -2,7 +2,7 @@ export const prerender = false
 
 import type { APIRoute } from 'astro'
 import {
-  COOKIE_NAME, NIGHT_MINUTES, TICK, SET_LENGTHS,
+  COOKIE_NAME, NIGHT_MINUTES, TICK,
   isAdmitted, fetchSlots, createSlot,
 } from '../../../lib/dj'
 
@@ -30,9 +30,10 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const minutes = body?.minutes
 
   if (!name) return json(400, { error: 'The bill needs a name.' })
+  // Sets snap to 15-minute ticks, minimum one tick, no upper cap beyond 11 PM.
   if (
     typeof start !== 'number' || typeof minutes !== 'number' ||
-    start % TICK !== 0 || !SET_LENGTHS.includes(minutes) ||
+    start % TICK !== 0 || minutes % TICK !== 0 || minutes < TICK ||
     start < 0 || start + minutes > NIGHT_MINUTES
   ) {
     return json(400, { error: 'That set doesn’t fit the night.' })

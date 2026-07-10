@@ -7,7 +7,6 @@ import { Client } from '@notionhq/client'
 export const NIGHT_START_ISO = '2026-07-11T20:00:00-06:00'
 export const NIGHT_MINUTES = 180
 export const TICK = 15
-export const SET_LENGTHS = [15, 30, 45, 60]
 
 export const COOKIE_NAME = 'tt_admit'
 
