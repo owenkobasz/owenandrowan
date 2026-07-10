@@ -1,8 +1,75 @@
 ---
 // Guest photo collection — the one URL guests ever see: owenrowan.love/photos
-// Phase 0 (now): 302 to the Wedibox event. Phase 2: this file becomes the
-// Permanent Collection acquisitions page. Keep it a 302 — never a permanent
-// redirect — so browsers don't cache the Wedibox destination past the cutover.
-export const prerender = false
-return Astro.redirect('https://www.wedibox.com/w/photo-collection/recRM0jgRdqZkaTN', 302)
+// Phase 0: site chrome around the Wedibox uploader (iframe embed).
+// Phase 2: the embed gets swapped for the Permanent Collection acquisitions page.
+import Base from '../layouts/Base.astro'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import Footer from '../components/Footer.astro'
+import Stamp from '../components/Stamp.astro'
+
+const WEDIBOX_EMBED = 'https://embed.wedibox.com/e/fec3f200-2376-41fc-b0d2-3265d144159d'
+const WEDIBOX_PAGE = 'https://www.wedibox.com/w/photo-collection/recRM0jgRdqZkaTN'
 ---
+<Base title="Photos — Owen & Rowan" description="You are the photographers. Send us everything.">
+  <Breadcrumb />
+
+  <article class="px-6 max-w-3xl mx-auto pb-24 relative overflow-hidden">
+
+    <img
+      src="/illustrations/pinon-bg.svg"
+      alt=""
+      aria-hidden="true"
+      class="absolute -right-12 top-0 w-1/2 max-w-xs pointer-events-none select-none"
+      style="opacity: 0.07; color: var(--c-ink);"
+      width="400"
+      height="600"
+    />
+
+    <p class="type-label mb-6 relative" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);" data-reveal>
+      The Museum of Owen &amp; Rowan — Now Acquiring
+    </p>
+
+    <h1 class="type-display mb-8 relative" style="font-size: clamp(2.5rem, 6vw, 4.5rem);" data-reveal>
+      You are the photographers.
+    </h1>
+
+    <div class="flex items-start gap-8 mb-12 relative" data-reveal>
+      <div class="prose-wedding flex-1">
+        <p>
+          We hired exactly one photographer, and there are about a hundred of you.
+          Whatever you catch tonight — blurry, unflattering, mid-bite, all of it —
+          we want every single frame. Videos too.
+        </p>
+        <p>
+          No app, no account. Upload whenever you have signal —
+          tomorrow morning from the hotel absolutely counts.
+        </p>
+      </div>
+      <div class="hidden sm:block flex-shrink-0 pt-2">
+        <Stamp text="Acquired" subtext="Est. 2026" variant="circle" color="sage" />
+      </div>
+    </div>
+
+    <section class="mb-8 relative" data-reveal>
+      <iframe
+        src={WEDIBOX_EMBED}
+        title="Upload your photos"
+        allow="camera; microphone"
+        loading="eager"
+        style="width: 100%; height: min(80vh, 900px); min-height: 560px; border: 1px solid color-mix(in srgb, var(--c-ink) 15%, transparent); background: var(--c-base);"
+      ></iframe>
+      <p class="type-label mt-4 text-center">
+        <a href={WEDIBOX_PAGE} class="link-draw" target="_blank" rel="noopener noreferrer">
+          Trouble loading? Open the uploader directly ↗
+        </a>
+      </p>
+    </section>
+
+    <p class="prose-wedding relative" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);" data-reveal>
+      Every photo goes into the permanent collection. More on that soon.
+    </p>
+
+  </article>
+
+  <Footer />
+</Base>
