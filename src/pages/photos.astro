@@ -1,0 +1,8 @@
+---
+// Guest photo collection — the one URL guests ever see: owenrowan.love/photos
+// Phase 0 (now): 302 to the Wedibox event. Phase 2: this file becomes the
+// Permanent Collection acquisitions page. Keep it a 302 — never a permanent
+// redirect — so browsers don't cache the Wedibox destination past the cutover.
+export const prerender = false
+return Astro.redirect('https://www.wedibox.com/w/photo-collection/recRM0jgRdqZkaTN', 302)
+---
