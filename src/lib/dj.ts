@@ -1,5 +1,4 @@
 // Shared helpers for the turntable.fm DJ signup.
-import { createHash } from 'node:crypto'
 import { Client } from '@notionhq/client'
 
 // The night: 8:00–11:00 PM MDT, July 11, 2026. All slot math is in
@@ -8,37 +7,11 @@ export const NIGHT_START_ISO = '2026-07-11T20:00:00-06:00'
 export const NIGHT_MINUTES = 180
 export const TICK = 15
 
-export const COOKIE_NAME = 'tt_admit'
-
 export interface Slot {
   name: string
   start: number // minutes after 8:00 PM
   minutes: number
   vibe: string
-}
-
-function normalize(pw: string): string {
-  return pw.trim().toLowerCase().replace(/\s+/g, ' ')
-}
-
-// Cookie token: hash of the password, so the password itself never rides
-// along in requests. Threat model is "guests only", not Fort Knox.
-export function admitToken(): string {
-  const pw = import.meta.env.DJ_PASSWORD ?? ''
-  return createHash('sha256').update(`owenrowan:${normalize(pw)}`).digest('hex')
-}
-
-export function passwordMatches(attempt: string): boolean {
-  return normalize(attempt) === normalize(import.meta.env.DJ_PASSWORD ?? '')
-}
-
-export function isAdmitted(cookieValue: string | undefined): boolean {
-  return !!cookieValue && cookieValue === admitToken()
-}
-
-export function admitCookie(): string {
-  // 60 days: outlives the wedding, nobody re-enters the password.
-  return `${COOKIE_NAME}=${admitToken()}; Path=/; Max-Age=5184000; HttpOnly; SameSite=Lax; Secure`
 }
 
 export async function fetchSlots(): Promise<Slot[]> {

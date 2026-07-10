@@ -1,10 +1,7 @@
 export const prerender = false
 
 import type { APIRoute } from 'astro'
-import {
-  COOKIE_NAME, NIGHT_MINUTES, TICK,
-  isAdmitted, fetchSlots, createSlot,
-} from '../../../lib/dj'
+import { NIGHT_MINUTES, TICK, fetchSlots, createSlot } from '../../../lib/dj'
 
 function json(status: number, data: unknown): Response {
   return new Response(JSON.stringify(data), {
@@ -13,14 +10,11 @@ function json(status: number, data: unknown): Response {
   })
 }
 
-export const GET: APIRoute = async ({ cookies }) => {
-  if (!isAdmitted(cookies.get(COOKIE_NAME)?.value)) return json(401, { error: 'not admitted' })
+export const GET: APIRoute = async () => {
   return json(200, { slots: await fetchSlots() })
 }
 
-export const POST: APIRoute = async ({ request, cookies }) => {
-  if (!isAdmitted(cookies.get(COOKIE_NAME)?.value)) return json(401, { error: 'not admitted' })
-
+export const POST: APIRoute = async ({ request }) => {
   const body = await request.json().catch(() => null) as
     { name?: unknown, start?: unknown, minutes?: unknown, vibe?: unknown } | null
 

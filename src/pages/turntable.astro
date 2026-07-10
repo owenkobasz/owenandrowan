@@ -2,81 +2,24 @@
 export const prerender = false
 
 import Base from '../layouts/Base.astro'
-import { COOKIE_NAME, isAdmitted, fetchSlots } from '../lib/dj'
+import { fetchSlots } from '../lib/dj'
 
-const admitted = isAdmitted(Astro.cookies.get(COOKIE_NAME)?.value)
-const slots = admitted ? await fetchSlots() : []
+const slots = await fetchSlots()
 ---
-<Base title="The Turntable" description="One DJ at a time. The courtyard is listening.">
-  {!admitted ? (
-    <div class="min-h-screen flex flex-col items-center justify-center px-6 text-center">
-      <div class="tt-vinyl tt-vinyl--lg mb-12" aria-hidden="true"></div>
-
-      <p class="type-label mb-4" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">
-        the aux cord is behind this door
-      </p>
-      <h1 class="type-display mb-10" style="font-size: var(--text-2xl);">
-        What's the password?
-      </h1>
-
-      <form id="tt-gate" class="w-full max-w-xs">
-        <input
-          id="tt-password"
-          type="text"
-          autocomplete="off"
-          autocapitalize="none"
-          aria-label="Password"
-          class="w-full bg-transparent px-0 py-2 text-center"
-          style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink); font-size: var(--text-lg);"
-          onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
-          onblur="this.style.borderBottomColor='color-mix(in srgb, var(--c-ink) 30%, transparent)'"
-        />
-        <button
-          type="submit"
-          class="type-label mt-8 px-8 py-3 cursor-pointer transition-colors"
-          style="border: 1px solid var(--c-terracotta); color: var(--c-terracotta);"
-          onmouseenter="this.style.background='var(--c-terracotta)'; this.style.color='var(--c-base)'"
-          onmouseleave="this.style.background='transparent'; this.style.color='var(--c-terracotta)'"
-        >
-          Knock
-        </button>
-      </form>
-
-      <p id="tt-quip" class="type-label mt-8 min-h-6" style="color: var(--c-terracotta);"></p>
-
-      <div
-        id="tt-admit-stamp"
-        class="stamp stamp--rect stamp--terracotta mt-4"
-        style="--rotate: -3deg; opacity: 0; transform: rotate(-3deg) scale(1.4); transition: opacity 0.2s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);"
-      >
-        <span class="stamp__text">Admitted</span>
-        <span class="stamp__sub">one night only</span>
-      </div>
-    </div>
-  ) : (
-    <Fragment>
+<Base title="Turntable" description="Sign up to DJ.">
+  <div id="tt-page">
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-24">
-      <header class="text-center mb-14">
+      <header class="text-center mb-12">
         <p class="type-label mb-4" style="color: var(--c-ochre);">
           side b · the reception · saturday, july 11
         </p>
         <h1 class="type-display" style="font-size: var(--text-hero); line-height: 0.9;">
-          The<br />Turntable
+          Turntable
         </h1>
-        <p class="type-label-lg mt-6" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">
-          one dj at a time · play what you love · the courtyard is listening
-        </p>
+        <div class="tt-wave mx-auto mt-8" aria-hidden="true">
+          <img src="/images/tt-wave.gif" alt="" width="260" height="90" loading="eager" />
+        </div>
       </header>
-
-      <div class="prose-wedding mx-auto text-center mb-14" style="max-width: 42ch;">
-        <p style="color: color-mix(in srgb, var(--c-ink) 75%, transparent);">
-          From eight to eleven, the aux cord belongs to you. Claim a set,
-          bring the songs you actually love, and play them for a courtyard
-          with nowhere better to be. No skips. No shame.
-        </p>
-      </div>
-
-      <div class="diamond-rule mb-10"><span class="type-label">◆</span></div>
 
       <div class="grid md:grid-cols-[5fr_4fr] gap-10 md:gap-14 items-start">
         <section aria-label="The lineup">
@@ -88,8 +31,16 @@ const slots = admitted ? await fetchSlots() : []
         </section>
 
         <aside class="md:sticky md:top-10">
-          <h2 class="type-label mb-5" style="color: var(--c-ochre);">step up to the decks</h2>
+          <h2 class="type-label mb-5" style="color: var(--c-ochre);">dj sign up</h2>
           <div id="tt-claim-card" class="tt-card">
+            <img
+              src="/images/tt-dj.gif"
+              alt=""
+              class="tt-mascot mx-auto mb-6"
+              width="86"
+              height="88"
+              loading="lazy"
+            />
             <form id="tt-claim" class="space-y-7">
               <label class="block">
                 <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">dj name</span>
@@ -119,7 +70,7 @@ const slots = admitted ? await fetchSlots() : []
                 <input
                   name="vibe"
                   maxlength="100"
-                  placeholder="deep cuts, yacht rock, apologies in advance…"
+                  placeholder="deep cuts, neo-folk, straight from the heart…"
                   class="w-full bg-transparent px-0 py-2"
                   style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
                   onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
@@ -147,24 +98,64 @@ const slots = admitted ? await fetchSlots() : []
         </aside>
       </div>
 
-      <footer class="text-center mt-20 space-y-6">
-        <p class="type-label" style="color: color-mix(in srgb, var(--c-ink) 45%, transparent);">
-          times are a plan, not a promise — the night decides
-        </p>
-        <p class="type-label" style="color: color-mix(in srgb, var(--c-ink) 35%, transparent);">
-          in loving memory of turntable.fm · 2011–2013
-        </p>
+      <footer class="text-center mt-20">
         <a href="/" class="type-label link-draw inline-block" style="color: var(--c-terracotta);">← Back</a>
       </footer>
     </div>
 
     <script is:inline type="application/json" id="tt-slots-data" set:html={JSON.stringify(slots).replace(/</g, '\\u003c')} />
-    </Fragment>
-  )}
+  </div>
 </Base>
 
 <style is:global>
-  /* ─── turntable.fm page ─────────────────────────────────────────────── */
+  /* ─── Turntable page — always dark, its own room in the house ───────── */
+  #tt-page {
+    --c-base:       #0F0F12;
+    --c-base-warm:  #17171C;
+    --c-ink:        #ECE8DD;
+    --c-terracotta: #E0714A;
+    --c-sage:       #93B380;
+    --c-sky:        #8FB6CB;
+    --c-ochre:      #D2A64B;
+    --c-sienna:     #E8C4A0;
+    background: var(--c-base);
+    color: var(--c-ink);
+    min-height: 100vh;
+  }
+
+  body:has(#tt-page) {
+    background: #0F0F12;
+  }
+
+  body:has(#tt-page)::after {
+    mix-blend-mode: overlay;
+    opacity: 0.07;
+  }
+
+  /* The light/dark toggle is meaningless in a room with no windows */
+  body:has(#tt-page) #theme-toggle {
+    display: none;
+  }
+
+  .tt-wave {
+    width: 260px;
+    height: 90px;
+    overflow: hidden;
+  }
+
+  .tt-wave img {
+    width: 260px;
+    height: 260px;
+    object-fit: cover;
+    object-position: center;
+    margin-top: -85px;
+  }
+
+  .tt-mascot {
+    image-rendering: pixelated;
+    display: block;
+  }
+
   .tt-vinyl {
     width: 3rem;
     height: 3rem;
@@ -175,12 +166,6 @@ const slots = admitted ? await fetchSlots() : []
       radial-gradient(circle, var(--c-ink) 0 100%);
     color: color-mix(in srgb, var(--c-base) 40%, transparent);
     animation: tt-spin 4s linear infinite;
-  }
-
-  .tt-vinyl--lg {
-    width: 5rem;
-    height: 5rem;
-    animation-duration: 8s;
   }
 
   @keyframes tt-spin {
@@ -253,7 +238,7 @@ const slots = admitted ? await fetchSlots() : []
   .tt-row--open:hover,
   .tt-row--open:focus-visible {
     border-color: var(--c-terracotta);
-    background: color-mix(in srgb, var(--c-terracotta) 5%, transparent);
+    background: color-mix(in srgb, var(--c-terracotta) 8%, transparent);
   }
 
   .tt-row--open .tt-row__label {
@@ -318,49 +303,6 @@ const slots = admitted ? await fetchSlots() : []
     return `${fmt(start)} – ${fmt(start + minutes)}`
   }
 
-  /* ─── Gate ──────────────────────────────────────────────────────────── */
-  function wireGate() {
-    const gate = document.getElementById('tt-gate') as HTMLFormElement | null
-    if (!gate) return
-
-    const input = document.getElementById('tt-password') as HTMLInputElement
-    const quip = document.getElementById('tt-quip')!
-    const stamp = document.getElementById('tt-admit-stamp')!
-    const quips = [
-      'Colder.',
-      'Nope. Think bigger.',
-      'Ask around — someone at your table knows.',
-      'It’s two words.',
-    ]
-    let misses = 0
-
-    gate.addEventListener('submit', async (e) => {
-      e.preventDefault()
-      const attempt = input.value.trim()
-      if (!attempt) return
-
-      const res = await fetch('/api/dj/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: attempt }),
-      }).catch(() => null)
-
-      if (res?.ok) {
-        quip.textContent = ''
-        stamp.style.opacity = '1'
-        stamp.style.transform = 'rotate(-3deg) scale(1)'
-        setTimeout(() => location.reload(), 1100)
-      } else if (attempt.toLowerCase().includes('esme')) {
-        quip.textContent = 'We told you she wasn’t the password.'
-      } else {
-        quip.textContent = quips[Math.min(misses, quips.length - 1)]
-        misses++
-        input.select()
-      }
-    })
-  }
-
-  /* ─── Bill ──────────────────────────────────────────────────────────── */
   function wireBill() {
     const lineup = document.getElementById('tt-lineup')
     const dataEl = document.getElementById('tt-slots-data')
@@ -527,7 +469,7 @@ const slots = admitted ? await fetchSlots() : []
           particleCount: 90,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ['#B85C38', '#7A8C6A', '#C49A3C', '#A8C0CC'],
+          colors: ['#E0714A', '#93B380', '#D2A64B', '#8FB6CB'],
         })
       } else {
         if (body?.slots) { slots = body.slots; render(); renderPickers() }
@@ -556,10 +498,5 @@ const slots = admitted ? await fetchSlots() : []
     renderPickers()
   }
 
-  function init() {
-    wireGate()
-    wireBill()
-  }
-
-  document.addEventListener('astro:page-load', init)
+  document.addEventListener('astro:page-load', wireBill)
 </script>
