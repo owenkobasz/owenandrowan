@@ -228,17 +228,6 @@ const slots = await fetchSlots()
 
   .tt-row--open {
     border: 1px dashed color-mix(in srgb, var(--c-ink) 30%, transparent);
-    cursor: pointer;
-    background: transparent;
-    width: 100%;
-    text-align: left;
-    transition: border-color 0.2s ease, background 0.2s ease;
-  }
-
-  .tt-row--open:hover,
-  .tt-row--open:focus-visible {
-    border-color: var(--c-terracotta);
-    background: color-mix(in srgb, var(--c-terracotta) 8%, transparent);
   }
 
   .tt-row--open .tt-row__label {
@@ -246,15 +235,6 @@ const slots = await fetchSlots()
     letter-spacing: 0.16em;
     font-size: var(--text-sm);
     color: color-mix(in srgb, var(--c-ink) 55%, transparent);
-  }
-
-  .tt-row--open .tt-row__claim {
-    margin-left: auto;
-    font-variant: small-caps;
-    letter-spacing: 0.16em;
-    font-size: var(--text-xs);
-    color: var(--c-terracotta);
-    flex: none;
   }
 
   .tt-card {
@@ -310,7 +290,6 @@ const slots = await fetchSlots()
 
     let slots: Slot[] = JSON.parse(dataEl.textContent || '[]')
     const claimForm = document.getElementById('tt-claim') as HTMLFormElement
-    const claimCard = document.getElementById('tt-claim-card')!
     const startsWrap = document.getElementById('tt-starts')!
     const endsWrap = document.getElementById('tt-ends')!
     const claimError = document.getElementById('tt-claim-error')!
@@ -347,20 +326,10 @@ const slots = await fetchSlots()
       function openRow(start: number, end: number) {
         hasGap = true
         const li = document.createElement('li')
-        const btn = document.createElement('button')
-        btn.type = 'button'
-        btn.className = 'tt-row tt-row--open'
-        btn.innerHTML = `
+        li.className = 'tt-row tt-row--open'
+        li.innerHTML = `
           <span class="tt-row__time">${fmtRange(start, end - start)}</span>
-          <span class="tt-row__label">open · ${end - start} min</span>
-          <span class="tt-row__claim">claim this →</span>`
-        btn.addEventListener('click', () => {
-          chosenStart = start
-          chosenEnd = -1
-          renderPickers()
-          claimCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-        })
-        li.appendChild(btn)
+          <span class="tt-row__label">open · ${end - start} min</span>`
         rows.push(li)
       }
 
