@@ -17,7 +17,7 @@ const slots = await fetchSlots()
           Turntable
         </h1>
         <div class="tt-wave mx-auto mt-8" aria-hidden="true">
-          <img src="/images/tt-wave.gif" alt="" width="260" height="90" loading="eager" />
+          {Array.from({ length: 28 }).map((_, i) => <span style={`--i: ${i}`}></span>)}
         </div>
       </header>
 
@@ -137,18 +137,32 @@ const slots = await fetchSlots()
     display: none;
   }
 
+  /* A traveling wave of dashes — CSS rather than a GIF so it stays fluid
+     at any speed. Adjust the animation duration to retune the tempo. */
   .tt-wave {
-    width: 260px;
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    justify-content: center;
     height: 90px;
-    overflow: hidden;
   }
 
-  .tt-wave img {
-    width: 260px;
-    height: 260px;
-    object-fit: cover;
-    object-position: center;
-    margin-top: -85px;
+  .tt-wave span {
+    width: 2.5px;
+    height: 15px;
+    border-radius: 1px;
+    background: color-mix(in srgb, var(--c-ink) 88%, transparent);
+    animation: tt-wave-bob 2.4s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.15s);
+  }
+
+  @keyframes tt-wave-bob {
+    0%, 100% { transform: translateY(13px); }
+    50%      { transform: translateY(-13px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tt-wave span { animation: none; }
   }
 
   .tt-mascot {
