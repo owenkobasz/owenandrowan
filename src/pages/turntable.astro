@@ -7,7 +7,7 @@ import { fetchSlots } from '../lib/dj'
 const slots = await fetchSlots()
 ---
 <Base
-  title="Turntable"
+  title="Owen + Rowan Turntable"
   description="Sign up to DJ."
   ogImage="https://owenrowan.love/images/og-turntable.png"
   ogImageWidth="512"
@@ -17,7 +17,7 @@ const slots = await fetchSlots()
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-24">
       <header class="text-center mb-12">
         <h1 class="type-display" style="font-size: var(--text-hero); line-height: 0.9;">
-          Turntable
+          Owen + Rowan Turntable
         </h1>
         <div class="tt-wave mx-auto mt-8" aria-hidden="true">
           {Array.from({ length: 28 }).map((_, i) => <span style={`--i: ${i}`}></span>)}
@@ -26,7 +26,7 @@ const slots = await fetchSlots()
 
       <div class="grid md:grid-cols-[5fr_4fr] gap-10 md:gap-14 items-start">
         <section aria-label="The lineup">
-          <h2 class="type-label mb-5" style="color: var(--c-ochre);">the lineup</h2>
+          <h2 class="type-label mb-5" style="color: var(--c-ochre);">lineup</h2>
           <ol id="tt-lineup"></ol>
           <p id="tt-full-note" class="type-label mt-6 hidden" style="color: color-mix(in srgb, var(--c-ink) 50%, transparent);">
             The bill is full. Bribery at the sound table is not technically forbidden.
@@ -63,17 +63,17 @@ const slots = await fetchSlots()
                 <div id="tt-starts" class="flex flex-wrap gap-2"></div>
               </fieldset>
 
-              <fieldset class="border-0 p-0 m-0">
+              <fieldset class="border-0 p-0" style="margin: 2.75rem 0 0;">
                 <legend class="type-label mb-3" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">and spins until</legend>
                 <div id="tt-ends" class="flex flex-wrap gap-2"></div>
               </fieldset>
 
-              <label class="block">
+              <label class="block" style="margin-top: 2.75rem;">
                 <span class="type-label block mb-2" style="color: color-mix(in srgb, var(--c-ink) 60%, transparent);">what are you spinning?</span>
                 <input
                   name="vibe"
                   maxlength="100"
-                  placeholder="deep cuts, neo-folk, straight from the heart…"
+                  placeholder="deep cuts, straight from the heart…"
                   class="w-full bg-transparent px-0 py-2"
                   style="border-bottom: 1px solid color-mix(in srgb, var(--c-ink) 30%, transparent); font-family: var(--font-family-body); color: var(--c-ink);"
                   onfocus="this.style.borderBottomColor='var(--c-terracotta)'"
