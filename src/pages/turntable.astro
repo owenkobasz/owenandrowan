@@ -6,13 +6,16 @@ import { fetchSlots } from '../lib/dj'
 
 const slots = await fetchSlots()
 ---
-<Base title="Turntable" description="Sign up to DJ.">
+<Base
+  title="Turntable"
+  description="Sign up to DJ."
+  ogImage="https://owenrowan.love/images/og-turntable.png"
+  ogImageWidth="1200"
+  ogImageHeight="630"
+>
   <div id="tt-page">
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-24">
       <header class="text-center mb-12">
-        <p class="type-label mb-10" style="color: var(--c-ochre);">
-          side b · the reception · saturday, july 11
-        </p>
         <h1 class="type-display" style="font-size: var(--text-hero); line-height: 0.9;">
           Turntable
         </h1>
@@ -85,7 +88,7 @@ const slots = await fetchSlots()
                 onmouseenter="this.style.background='var(--c-terracotta)'; this.style.color='var(--c-base)'"
                 onmouseleave="this.style.background='transparent'; this.style.color='var(--c-terracotta)'"
               >
-                Press it
+                Enter
               </button>
 
               <p id="tt-claim-error" class="type-label hidden" style="color: var(--c-terracotta);"></p>
